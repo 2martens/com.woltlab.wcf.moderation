@@ -54,6 +54,100 @@ class ModerationQueueManager extends SingletonFactory {
 	}
 	
 	/**
+	 * Returns true, if given item was already reported.
+	 * 
+	 * @param	integer		$type
+	 * @param	string		$objectType
+	 * @param	integer		$objectID
+	 * @return	boolean
+	 */
+	public function isAlreadyReported($type, $objectType, $objectID) {
+		$objectTypeID = $this->getObjectTypeID($type, $objectType);
+		
+		$sql = "SELECT	COUNT(*) AS count
+			FROM	wcf".WCF_N."_moderation_queue
+			WHERE	objectTypeID = ?
+				AND objectID = ?";
+		$statement = WCF::getDB()->prepareStatement($sql);
+		$statement->execute(array(
+			$objectTypeID,
+			$objectID
+		));
+		$row = $statement->fetchArray();
+		
+		return ($row['count'] == 0 ? false : true);
+	}
+	
+	/**
+	 * Returns true, if given object type is valid. If $objectID is given,
+	 * it will be validated against the object type's class.
+	 * 
+	 * @param	integer		$type
+	 * @param	string		$objectType
+	 * @param	integer		$objectID
+	 * @return	boolean
+	 */
+	public function isValid($type, $objectType, $objectID = null) {
+		$isValid = false;
+		switch ($type) {
+			case ModerationQueue::TYPE_MODERATED_CONTENT:
+				if (isset($this->moderatedContent['objectNames'][$objectType])) {
+					$isValid = true;
+				}
+			break;
+			
+			case ModerationQueue::TYPE_REPORT:
+				if (isset($this->report['objectNames'][$objectType])) {
+					$isValid = true;
+				}
+			break;
+			
+			default:
+				throw new SystemException("Unknown type '".$type."' given");
+			break;
+		}
+		
+		if (!$isValid) {
+			return false;
+		}
+		
+		if ($objectID === null) {
+			return true;
+		}
+		else {
+			return $this->getClassObject($type, $objectType)->isValid($objectID);
+		}
+	}
+	
+	/**
+	 * Returns the reported object.
+	 * 
+	 * @param	integer		$type
+	 * @param	string		$objectType
+	 * @param	integer		$objectID
+	 * @return	wcf\data\IUserContent
+	 */
+	public function getReportedObject($type, $objectType, $objectID) {
+		return $this->getClassObject($type, $objectType)->getReportedObject($objectID);
+	}
+	
+	/**
+	 * Returns the class object for given object type.
+	 * 
+	 * @param	integer		$type
+	 * @param	string		$objectType
+	 * @return	wcf\system\moderation\queue\IModerationQueueProvider
+	 */
+	protected function getClassObject($type, $objectType) {
+		if ($type == ModerationQueue::TYPE_MODERATED_CONTENT) {
+			return $this->moderatedContent['objects'][$this->moderatedContent['objectNames'][$objectType]]->getProcessor();
+		}
+		else {
+			return $this->report['objects'][$this->report['objectNames'][$objectType]]->getProcessor();
+		}
+	}
+	
+	/**
 	 * Adds a report for specified content.
 	 * 
 	 * @param	string		$objectType
@@ -62,7 +156,7 @@ class ModerationQueueManager extends SingletonFactory {
 	 * @param	array		$additionalData
 	 */
 	public function addReport($objectType, $objectID, $message, array $additionalData = array()) {
-		if (!isset($this->report['objectNames'][$objectType])) {
+		if (!$this->isValid(ModerationQueue::TYPE_REPORT, $objectType)) {
 			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderation.report'");
 		}
 		
@@ -78,7 +172,7 @@ class ModerationQueueManager extends SingletonFactory {
 	 * @param	array		$additionalData
 	 */
 	public function addModeratedContent($objectType, $objectID, array $additionalData = array()) {
-		if (!isset($this->moderatedContent['objectNames'][$objectType])) {
+		if (!$this->isValid(ModerationQueue::TYPE_MODERATED_CONTENT, $objectType)) {
 			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderatedContent.report'");
 		}
 		
@@ -103,6 +197,26 @@ class ModerationQueueManager extends SingletonFactory {
 			)
 		));
 		$objectAction->executeAction();
+	}
+	
+	/**
+	 * Returns object type id.
+	 *
+	 * @param	integer		$type
+	 * @param	string		$objectType
+	 * @return	integer
+	 */
+	public function getObjectTypeID($type, $objectType) {
+		if (!$this->isValid($type, $objectType)) {
+			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderation.".($type == ModerationQueue::TYPE_MODERATED_CONTENT ? "moderatedContent" : "report")."'");
+		}
+	
+		if ($type == ModerationQueue::TYPE_MODERATED_CONTENT) {
+			return $this->moderatedContent['objectNames'][$objectType];
+		}
+		else {
+			return $this->report['objectNames'][$objectType];
+		}
 	}
 	
 	/**

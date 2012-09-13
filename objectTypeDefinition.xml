@@ -7,6 +7,7 @@
 		
 		<definition>
 			<name>com.woltlab.wcf.moderation.report</name>
+			<interfacename>wcf\system\moderation\queue\IModerationQueueHandler</interfacename>
 		</definition>
 	</import>
 </data>
