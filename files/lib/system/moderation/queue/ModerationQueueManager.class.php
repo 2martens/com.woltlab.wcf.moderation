@@ -56,13 +56,12 @@ class ModerationQueueManager extends SingletonFactory {
 	/**
 	 * Returns true, if given item was already reported.
 	 * 
-	 * @param	integer		$type
 	 * @param	string		$objectType
 	 * @param	integer		$objectID
 	 * @return	boolean
 	 */
-	public function isAlreadyReported($type, $objectType, $objectID) {
-		$objectTypeID = $this->getObjectTypeID($type, $objectType);
+	public function isAlreadyReported($objectType, $objectID) {
+		$objectTypeID = $this->getObjectTypeID(ModerationQueue::TYPE_REPORT, $objectType);
 		
 		$sql = "SELECT	COUNT(*) AS count
 			FROM	wcf".WCF_N."_moderation_queue
@@ -122,13 +121,12 @@ class ModerationQueueManager extends SingletonFactory {
 	/**
 	 * Returns the reported object.
 	 * 
-	 * @param	integer		$type
 	 * @param	string		$objectType
 	 * @param	integer		$objectID
 	 * @return	wcf\data\IUserContent
 	 */
-	public function getReportedObject($type, $objectType, $objectID) {
-		return $this->getClassObject($type, $objectType)->getReportedObject($objectID);
+	public function getReportedObject($objectType, $objectID) {
+		return $this->getClassObject(ModerationQueue::TYPE_REPORT, $objectType)->getReportedObject($objectID);
 	}
 	
 	/**

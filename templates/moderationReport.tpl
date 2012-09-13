@@ -6,10 +6,10 @@
 	{else}
 		{lang}wcf.moderation.report.reportObject{/lang}
 		
-		<textarea cols="40" rows="5" class="jsReportMessage"></textarea>
+		<textarea cols="40" rows="5" class="jsReportMessage marginTop"></textarea>
 		
 		<div class="formSubmit">
-			<button class="jsFormSubmit">{lang}wcf.global.button.submit{/lang}</button>
+			<button class="jsSubmitReport">{lang}wcf.global.button.submit{/lang}</button>
 		</div>
 	{/if}
 </fieldset>

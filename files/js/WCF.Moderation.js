@@ -83,9 +83,9 @@ WCF.Moderation.Report = Class.extend({
 			var $button = $(button);
 			var $buttonID = $button.wcfIdentify();
 			
-			if (!this._buttons[$buttonID]) {
-				this._buttons[$buttonID] = $button;
-				$button.click($.proxy(self._click, self)));
+			if (!self._buttons[$buttonID]) {
+				self._buttons[$buttonID] = $button;
+				$button.click($.proxy(self._click, self));
 			}
 		});
 	},
@@ -153,7 +153,7 @@ WCF.Moderation.Report = Class.extend({
 		
 		this._dialog.html(template).wcfDialog({
 			title: WCF.Language.get('wcf.moderation.report.reportContent')
-		});
+		}).wcfDialog('render');
 	},
 	
 	/**
@@ -166,6 +166,7 @@ WCF.Moderation.Report = Class.extend({
 				actionName: 'report',
 				className: 'wcf\\data\\moderation\\queue\\ModerationQueueAction',
 				parameters: {
+					message: $text,
 					objectID: this._objectID,
 					objectType: this._objectType
 				}

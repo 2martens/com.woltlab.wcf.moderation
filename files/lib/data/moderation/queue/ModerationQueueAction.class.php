@@ -57,7 +57,7 @@ class ModerationQueueAction extends AbstractDatabaseObjectAction {
 		
 		WCF::getTPL()->assign(array(
 			'alreadyReported' => $alreadyReported,
-			'object' => ModerationQueueManager::getInstance()->getObject(ModerationQueue::TYPE_REPORT, $this->parameters['objectType'], $this->parameters['objectID'])
+			'object' => ModerationQueueManager::getInstance()->getReportedObject($this->parameters['objectType'], $this->parameters['objectID'])
 		));
 		
 		return array(
