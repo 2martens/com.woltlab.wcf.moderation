@@ -1,0 +1,23 @@
+<?php
+namespace wcf\system\moderation\queue\report;
+use wcf\system\moderation\queue\IModerationQueueHandler;
+
+/**
+ * Default interface for moderation queue report handlers.
+ * 
+ * @author	Alexander Ebert
+ * @copyright	2001-2012 WoltLab GmbH
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.wcf.moderation
+ * @subpackage	system.moderation.queue.report
+ * @category 	Community Framework
+ */
+interface IModerationQueueReportHandler extends IModerationQueueHandler {
+	/**
+	 * Returns reported object.
+	 * 
+	 * @param	integer		$objectID
+	 * @return	wcf\data\IUserContent
+	 */
+	public function getReportedObject($objectID);
+}

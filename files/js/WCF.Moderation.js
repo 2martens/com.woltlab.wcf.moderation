@@ -100,7 +100,7 @@ WCF.Moderation.Report = Class.extend({
 		
 		this._proxy.setOption('data', {
 			actionName: 'prepareReport',
-			className: 'wcf\\data\\moderation\\queue\\ModerationQueueAction',
+			className: 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction',
 			parameters: {
 				objectID: this._objectID,
 				objectType: this._objectType
@@ -164,7 +164,7 @@ WCF.Moderation.Report = Class.extend({
 		if ($text != '') {
 			this._proxy.setOption('data', {
 				actionName: 'report',
-				className: 'wcf\\data\\moderation\\queue\\ModerationQueueAction',
+				className: 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction',
 				parameters: {
 					message: $text,
 					objectID: this._objectID,

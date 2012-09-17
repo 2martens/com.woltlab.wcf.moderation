@@ -2,12 +2,18 @@
 <data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/objectTypeDefinition.xsd">
 	<import>
 		<definition>
+			<name>com.woltlab.wcf.moderation.type</name>
+			<interfacename>wcf\system\moderation\queue\IModerationQueueManager</interfacename>
+		</definition>
+		
+		<definition>
 			<name>com.woltlab.wcf.moderation.moderatedContent</name>
+			<interfacename>wcf\system\moderation\queue\content\IModerationQueueModeratedContentHandler</interfacename>
 		</definition>
 		
 		<definition>
 			<name>com.woltlab.wcf.moderation.report</name>
-			<interfacename>wcf\system\moderation\queue\IModerationQueueHandler</interfacename>
+			<interfacename>wcf\system\moderation\queue\report\IModerationQueueReportHandler</interfacename>
 		</definition>
 	</import>
 </data>

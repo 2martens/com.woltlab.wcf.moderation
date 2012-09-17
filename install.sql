@@ -18,6 +18,17 @@ CREATE TABLE wcf1_moderation_queue (
 	UNIQUE KEY reportedObject (objectTypeID, objectID, userID)
 );
 
+DROP TABLE IF EXISTS wcf1_moderation_queue_to_user;
+CREATE TABLE wcf1_moderation_queue_to_user (
+	queueID INT(10) NOT NULL,
+	userID INT(10) NOT NULL,
+	
+	UNIQUE KEY queue (queueID, userID)
+);
+
 ALTER TABLE wcf1_moderation_queue ADD FOREIGN KEY (objectTypeID) REFERENCES wcf1_object_type (objectTypeID) ON DELETE CASCADE;
 ALTER TABLE wcf1_moderation_queue ADD FOREIGN KEY (userID) REFERENCES wcf1_user (userID) ON DELETE SET NULL;
 ALTER TABLE wcf1_moderation_queue ADD FOREIGN KEY (assignedUserID) REFERENCES wcf1_user (userID) ON DELETE SET NULL;
+
+ALTER TABLE wcf1_moderation_queue_to_user ADD FOREIGN KEY (queueID) REFERENCES wcf1_moderation_queue (queueID) ON DELETE CASCADE;
+ALTER TABLE wcf1_moderation_queue_to_user ADD FOREIGN KEY (userID) REFERENCES wcf1_user (userID) ON DELETE CASCADE;

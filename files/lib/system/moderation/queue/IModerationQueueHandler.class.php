@@ -13,20 +13,12 @@ namespace wcf\system\moderation\queue;
  */
 interface IModerationQueueHandler {
 	/**
-	 * Returns a list of user ids affected by this item.
+	 * Returns a list of user ids affected by this moderation queue entry.
 	 * 
 	 * @param	integer		$objectID
 	 * @return	array<integer>
 	 */
-	public function getAffectedUsers($objectID);
-	
-	/**
-	 * Returns the reported object.
-	 * 
-	 * @param	integer		$objectID
-	 * @return	wcf\data\IUserContent
-	 */
-	public function getReportedObject($objectID);
+	public function getAffectedUserIDs($objectID);
 	
 	/**
 	 * Returns true, if given object id is valid.
