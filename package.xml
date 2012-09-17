@@ -22,6 +22,6 @@
 		<instruction type="sql">install.sql</instruction>
 		<instruction type="objectTypeDefinition">objectTypeDefinition.xml</instruction>
 		<instruction type="templateListener">templateListener.xml</instruction>
-		<instruction type="userGroupOption">userGroupOption</instruction>
+		<instruction type="userGroupOption">userGroupOption.xml</instruction>
 	</instructions>
 </package>
