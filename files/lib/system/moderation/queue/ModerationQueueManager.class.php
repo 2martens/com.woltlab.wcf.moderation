@@ -2,8 +2,11 @@
 namespace wcf\system\moderation\queue;
 use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ModerationQueueAction;
+use wcf\data\moderation\queue\ModerationQueueList;
 use wcf\data\object\type\ObjectTypeCache;
 use wcf\system\exception\SystemException;
+use wcf\system\package\PackageDependencyHandler;
+use wcf\system\user\storage\UserStorageHandler;
 use wcf\system\SingletonFactory;
 use wcf\system\WCF;
 
@@ -25,6 +28,12 @@ class ModerationQueueManager extends SingletonFactory {
 	protected $definitions = array();
 	
 	/**
+	 * list of moderation types
+	 * @var	array<wcf\data\object\type\ObjectType>
+	 */
+	protected $moderationTypes = array();
+	
+	/**
 	 * list of object type names categorized by type
 	 * @var	array<array>
 	 */
@@ -40,12 +49,19 @@ class ModerationQueueManager extends SingletonFactory {
 	 * @see	wcf\system\SingletonFactory::init()
 	 */
 	protected function init() {
-		$definitions = ObjectTypeCache::getInstance()->getDefinitionsByCategory('moderation');
-		if ($definitions === null) {
-			throw new SystemException("Could not find object type definitions for category name 'moderation'");
+		$moderationTypes = ObjectTypeCache::getInstance()->getObjectTypes('com.woltlab.wcf.moderation.type');
+		if (empty($moderationTypes)) {
+			throw new SystemException("There are no registered moderation types");
 		}
 		
-		foreach ($definitions as $definition) {
+		foreach ($moderationTypes as $moderationType) {
+			$this->moderationTypes[$moderationType->objectType] = $moderationType;
+			
+			$definition = ObjectTypeCache::getInstance()->getDefinitionByName($moderationType->objectType);
+			if ($definition === null) {
+				throw new SystemException("Could not find corresponding definition for moderation type '".$moderationType->objectType."'");
+			}
+			
 			$this->definitions[$definition->definitionID] = $definition->definitionName;
 			$this->objectTypeNames[$definition->definitionName] = array();
 			
@@ -80,11 +96,15 @@ class ModerationQueueManager extends SingletonFactory {
 	 * 
 	 * @param	string		$definitionName
 	 * @param	string		$objectType
+	 * @param	integer		$objectTypeID
 	 * @return	object
 	 */
-	public function getProcessor($definitionName, $objectType) {
-		$objectTypeID = $this->getObjectTypeID($definitionName, $objectType);
-		if ($objectTypeID !== null) {
+	public function getProcessor($definitionName, $objectType, $objectTypeID = null) {
+		if ($objectType !== null) {
+			$objectTypeID = $this->getObjectTypeID($definitionName, $objectType);
+		}
+		
+		if ($objectTypeID !== null && isset($this->objectTypes[$objectTypeID])) {
 			return $this->objectTypes[$objectTypeID]->getProcessor();
 		}
 		
@@ -116,12 +136,12 @@ class ModerationQueueManager extends SingletonFactory {
 	}
 	
 	/**
-	 * Returns a list of available definition ids.
+	 * Returns a list of available definitions.
 	 * 
-	 * @return	array<integer>
+	 * @return	array<string>
 	 */
-	public function getDefinitionIDs() {
-		return array_keys($this->definitions);
+	public function getDefinitions() {
+		return $this->definitions;
 	}
 	
 	/**
@@ -141,5 +161,95 @@ class ModerationQueueManager extends SingletonFactory {
 		}
 		
 		return $objectTypeIDs;
+	}
+	
+	/**
+	 * Populates object properties for viewing.
+	 * 
+	 * @param	integer								$objectTypeID
+	 * @param	array<wcf\data\moderation\queue\ViewableModerationQueue>	$objects
+	 */
+	public function populate($objectTypeID, array $objects) {
+		$moderationType = '';
+		foreach ($this->objectTypeNames as $definitionName => $data) {
+			if (in_array($objectTypeID, $data)) {
+				$moderationType = $definitionName;
+				break;
+			}
+		}
+		
+		if (empty($moderationType)) {
+			throw new SystemException("Unable to resolve object type id '".$objectTypeID."'");
+		}
+		
+		// forward call to processor
+		$this->moderationTypes[$moderationType]->getProcessor()->populate($objectTypeID, $objects);
+	}
+	
+	/**
+	 * Returns the count of outstanding moderation queue items.
+	 * 
+	 * @return	integer
+	 */
+	public function getOutstandingModerationCount() {
+		// load storage data
+		UserStorageHandler::getInstance()->loadStorage(array(WCF::getUser()->userID));
+		
+		// get ids
+		$data = UserStorageHandler::getInstance()->getStorage(array(WCF::getUser()->userID), 'outstandingModerationCount');
+		
+		// cache does not exist or is outdated
+		if ($data[WCF::getUser()->userID] === null) {
+			// force update of non-tracked queues for this user
+			$queueList = new ModerationQueueList();
+			$queueList->sqlJoins = ", wcf".WCF_N."_moderation_queue_to_user moderation_queue_to_user";
+			$queueList->getConditionBuilder()->add("moderation_queue_to_user.queueID = moderation_queue.queueID");
+			$queueList->getConditionBuilder()->add("moderation_queue_to_user.userID = ?", array(WCF::getUser()->userID));
+			$queueList->getConditionBuilder()->add("moderation_queue_to_user.queueID IS NULL");
+			$queueList->sqlLimit = 0;
+			$queueList->readObjects();
+			
+			if (count($queueList) > 0) {
+				$queues = array();
+				foreach ($queueList as $queue) {
+					if (!isset($queues[$queue->objectTypeID])) {
+						$queues[$queue->objectTypeID] = array();
+					}
+					
+					$queues[$queue->objectTypeID][$queue->queueID] = $queue;
+				}
+				
+				foreach ($this->objectTypeNames as $definitionName => $objectTypeIDs) {
+					foreach ($objectTypeIDs as $objectTypeID) {
+						if (isset($queues[$objectTypeID])) {
+							$this->moderationTypes[$definitionName]->getProcessor()->assignQueues($queues[$objectTypeID]);
+						}
+					}
+				}
+			}
+			
+			// count outstanding and assigned queues
+			$sql = "SELECT		COUNT(*) AS count
+				FROM		wcf".WCF_N."_moderation_queue_to_user moderation_queue_to_user
+				LEFT JOIN	wcf".WCF_N."_moderation_queue moderation_queue
+				ON		(moderation_queue.queueID = moderation_queue_to_user.queueID)
+				WHERE		moderation_queue_to_user.userID = ?
+						AND moderation_queue.status <> ?";
+			$statement = WCF::getDB()->prepareStatement($sql);
+			$statement->execute(array(
+				WCF::getUser()->userID,
+				ModerationQueue::STATUS_DONE
+			));
+			$row = $statement->fetchArray();
+			$count = $row['count'];
+			
+			// update storage data
+			UserStorageHandler::getInstance()->update(WCF::getUser()->userID, 'outstandingModerationCount', $count, PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+		}
+		else {
+			$count = $data[WCF::getUser()->userID];
+		}
+		
+		return $count;
 	}
 }

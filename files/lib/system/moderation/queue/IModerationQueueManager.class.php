@@ -13,6 +13,14 @@ namespace wcf\system\moderation\queue;
  */
 interface IModerationQueueManager {
 	/**
+	 * Creates queue assignments for matching object type ids.
+	 * 
+	 * @param	integer							$objectTypeID
+	 * @param	array<wcf\data\moderation\queue\ModerationQueue>	$queues
+	 */
+	public function assignQueues($objectTypeID, array $queues);
+	
+	/**
 	 * Returns true, if given object type is valid, optionally checking object id.
 	 * 
 	 * @param	string		$objectType
@@ -36,4 +44,12 @@ interface IModerationQueueManager {
 	 * @return	object
 	 */
 	public function getProcessor($objectType);
+	
+	/**
+	 * Populates object properties for viewing.
+	 * 
+	 * @param	integer								$objectTypeID
+	 * @param	array<wcf\data\moderation\queue\ViewableModerationQueue>	$objects
+	 */
+	public function populate($objectTypeID, array $objects);
 }

@@ -3,7 +3,6 @@ namespace wcf\page;
 use wcf\system\exception\IllegalLinkException;
 use wcf\system\moderation\queue\ModerationQueueManager;
 use wcf\system\WCF;
-use wcf\util\ArrayUtil;
 use wcf\util\StringUtil;
 
 /**
@@ -18,21 +17,21 @@ use wcf\util\StringUtil;
  */
 class ModerationListPage extends SortablePage {
 	/**
-	 * list of available definition ids
-	 * @var	array<integer>
+	 * list of available definitions
+	 * @var	array<string>
 	 */
-	public $availableDefinitionIDs = array();
+	public $availableDefinitions = array();
 	
 	/**
-	 * list of definition ids
-	 * @var	array<integer>
+	 * @see	wcf\page\SortablePage::$defaultSortField
 	 */
-	public $definitionIDs = array();
+	public $defaultSortField = '';
 	
 	/**
-	 * @see	wcf\page\MultipleLinkPage::$listClassName
+	 * definiton id for filtering
+	 * @var	integer
 	 */
-	public $listClassName = 'wcf\data\moderation\queue\ModerationQueueList';
+	public $definitionID = 0;
 	
 	/**
 	 * @see	wcf\page\AbstractPage::$loginRequired
@@ -45,18 +44,26 @@ class ModerationListPage extends SortablePage {
 	public $neededPermissions = array('mod.general.canUseModeration');
 	
 	/**
+	 * @see	wcf\page\MultipleLinkPage::$objectListClassName
+	 */
+	public $objectListClassName = 'wcf\data\moderation\queue\ViewableModerationQueueList';
+	
+	/**
+	 * @see	wcf\page\SortablePage::$validSortFields
+	 */
+	public $validSortFields = array('assignedUsername', 'id', 'lastChangeTime', 'reportingUsername', 'time');
+	
+	/**
 	 * @see	wcf\page\IPage::readParameters()
 	 */
 	public function readParameters() {
 		parent::readParameters();
 		
-		$this->availableDefinitionIDs = ModerationQueueManager::getInstance()->getDefinitionIDs();
-		if (isset($_REQUEST['definitionIDs']) && is_array($_REQUEST['definitionIDs'])) {
-			$this->definitionIDs = ArrayUtil::toIntegerArray($_REQUEST['definitionIDs']);
-			foreach ($this->definitionIDs as $definitionID) {
-				if (!in_array($definitionID, $this->availableDefinitionIDs)) {
-					throw new IllegalLinkException();
-				}
+		$this->availableDefinitions = ModerationQueueManager::getInstance()->getDefinitions();
+		if (isset($_REQUEST['definitionID'])) {
+			$this->definitionID = intval($_REQUEST['definitionID']);
+			if ($this->definitionID && !isset($this->availableDefinitions[$this->definitionID])) {
+				throw new IllegalLinkException();
 			}
 		}
 	}
@@ -68,7 +75,7 @@ class ModerationListPage extends SortablePage {
 		parent::initObjectList();
 		
 		// filter by object type id
-		$objectTypeIDs = ModerationQueueManager::getInstance()->getObjectTypeIDs( (empty($this->definitionIDs) ? $this->availableDefinitionIDs : $this->definitionIDs) );
+		$objectTypeIDs = ModerationQueueManager::getInstance()->getObjectTypeIDs( ($this->definitionID ? array($this->definitionID) : array_keys($this->availableDefinitions)) );
 		$this->objectList->getConditionBuilder()->add("moderation_queue.objectTypeID IN (?)", array($objectTypeIDs));
 		
 		// filter by affected user
@@ -86,7 +93,8 @@ class ModerationListPage extends SortablePage {
 		parent::assignVariables();
 		
 		WCF::getTPL()->assign(array(
-			'definitionIDs' => $this->definitionIDs
+			'availableDefinitions' => $this->availableDefinitions,
+			'definitionID' => $this->definitionID
 		));
 	}
 }

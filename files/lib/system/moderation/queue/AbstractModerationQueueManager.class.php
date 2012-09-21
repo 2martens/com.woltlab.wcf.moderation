@@ -22,6 +22,13 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 	protected $definitionName = '';
 	
 	/**
+	 * @see	wcf\system\moderation\queue\IModerationQueueManager::assignQueues()
+	 */
+	public function assignQueues($objectTypeID, array $queues) {
+		ModerationQueueManager::getInstance()->getProcessor($this->definitionName, null, $objectTypeID)->assignQueues($queues);
+	}
+	
+	/**
 	 * @see	wcf\system\moderation\queue\IModerationQueueManager::isValid()
 	 */
 	public function isValid($objectType, $objectID = null) {
@@ -43,17 +50,26 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 	}
 	
 	/**
+	 * @see	wcf\system\moderation\queue\IModerationQueueManager::populate()
+	 */
+	public function populate($objectTypeID, array $objects) {
+		ModerationQueueManager::getInstance()->getProcessor($this->definitionName, null, $objectTypeID)->populate($objects);
+	}
+	
+	/**
 	 * Adds an entry to moderation queue.
 	 *
 	 * @param	integer		$objectTypeID
 	 * @param	integer		$objectID
+	 * @param	integer		$containerID
 	 * @param	array		$additionalData
 	 */
-	protected function addEntry($objectTypeID, $objectID, array $additionalData = array()) {
+	protected function addEntry($objectTypeID, $objectID, $containerID = 0, array $additionalData = array()) {
 		$objectAction = new ModerationQueueAction(array(), 'create', array(
 			'data' => array(
 				'objectTypeID' => $objectTypeID,
 				'objectID' => $objectID,
+				'containerID' => $containerID,
 				'userID' => (WCF::getUser()->userID ? WCF::getUser()->userID : null),
 				'time' => TIME_NOW,
 				'additionalData' => serialize($additionalData)

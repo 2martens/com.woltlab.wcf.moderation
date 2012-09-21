@@ -27,9 +27,14 @@ class ModerationQueueModeratedContentManager extends AbstractModerationQueueMana
 	 */
 	public function addModeratedContent($objectType, $objectID, array $additionalData = array()) {
 		if (!$this->isValid($objectType)) {
-			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderatedContent.moderatedContent'");
+			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderation.moderatedContent'");
 		}
-	
-		$this->addEntry($this->moderatedContent['objectNames'][$objectType], $objectID, $additionalData);
+		
+		$this->addEntry(
+			$this->getObjectTypeID($objectType),
+			$objectID,
+			$this->getProcessor($objectType)->getContainerID($objectID),
+			$additionalData
+		);
 	}
 }

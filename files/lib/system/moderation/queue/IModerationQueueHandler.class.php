@@ -13,12 +13,19 @@ namespace wcf\system\moderation\queue;
  */
 interface IModerationQueueHandler {
 	/**
-	 * Returns a list of user ids affected by this moderation queue entry.
+	 * Creates queue assignments for matching object ids.
+	 * 
+	 * @param	array<wcf\data\moderation\queue\ModerationQueue>	$queues
+	 */
+	public function assignQueues(array $queues);
+	
+	/**
+	 * Returns the container id for current object id, may return 0.
 	 * 
 	 * @param	integer		$objectID
-	 * @return	array<integer>
+	 * @return	integer
 	 */
-	public function getAffectedUserIDs($objectID);
+	public function getContainerID($objectID);
 	
 	/**
 	 * Returns true, if given object id is valid.
@@ -27,4 +34,11 @@ interface IModerationQueueHandler {
 	 * @return	boolean
 	 */
 	public function isValid($objectID);
+	
+	/**
+	 * Populates object properties for viewing.
+	 * 
+	 * @param	array<wcf\data\moderation\queue\ViewableModerationQueue>	$objects
+	 */
+	public function populate(array $objects);
 }

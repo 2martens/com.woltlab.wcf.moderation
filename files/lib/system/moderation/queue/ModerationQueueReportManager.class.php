@@ -68,6 +68,11 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 		}
 		
 		$additionalData['message'] = $message;
-		$this->addEntry($this->report['objectNames'][$objectType], $objectID, $additionalData);
+		$this->addEntry(
+			$this->getObjectTypeID($objectType),
+			$objectID,
+			$this->getProcessor($objectType)->getContainerID($objectID),
+			$additionalData
+		);
 	}
 }
