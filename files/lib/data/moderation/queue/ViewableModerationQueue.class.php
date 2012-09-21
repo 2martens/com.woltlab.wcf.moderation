@@ -2,6 +2,7 @@
 namespace wcf\data\moderation\queue;
 use wcf\data\DatabaseObjectDecorator;
 use wcf\data\IUserContent;
+use wcf\system\moderation\queue\ModerationQueueManager;
 
 /**
  * Represents a viewable moderation queue entry.
@@ -40,7 +41,7 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 	 * @return	string
 	 */
 	public function getLink() {
-		return ($this->affectedObject === null ? '' : $this->affectedObject->getLink());
+		return ModerationQueueManager::getInstance()->getLink($this->objectTypeID, $this->queueID);
 	}
 	
 	/**
@@ -66,5 +67,21 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 	 */
 	public function __toString() {
 		return $this->getTitle();
+	}
+	
+	/**
+	 * Returns a viewable moderation queue entry.
+	 * 
+	 * @param	integer		$queueID
+	 * @return	wcf\data\moderation\queue\ViewableModerationQueue
+	 */
+	public static function getViewableModerationQueue($queueID) {
+		$queueList = new ViewableModerationQueueList();
+		$queueList->getConditionBuilder()->add("moderation_queue.queueID = ?", array($queueID));
+		$queueList->sqlLimit = 1;
+		$queueList->readObjects();
+		$queues = $queueList->getObjects();
+		
+		return (isset($queues[$queueID]) ? $queues[$queueID] : null);
 	}
 }

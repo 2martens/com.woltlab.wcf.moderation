@@ -19,6 +19,13 @@ class ModerationQueueModeratedContentManager extends AbstractModerationQueueMana
 	protected $definitionName = 'com.woltlab.wcf.moderation.moderatedContent';
 	
 	/**
+	 * @see	wcf\system\moderation\queue\IModerationQueueManager::getLink()
+	 */
+	public function getLink($queueID) {
+		return LinkHandler::getInstance()->getLink('ModerationModeratedContent', array('id' => $queueID));
+	}
+	
+	/**
 	 * Adds an entry for moderated content.
 	 *
 	 * @param	string		$objectType

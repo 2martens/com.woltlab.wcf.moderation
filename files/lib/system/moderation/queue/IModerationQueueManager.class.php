@@ -30,6 +30,14 @@ interface IModerationQueueManager {
 	public function isValid($objectType, $objectID = null);
 	
 	/**
+	 * Returns link for viewing/editing objects for this moderation type.
+	 * 
+	 * @param	integer		$queueID
+	 * @return	string
+	 */
+	public function getLink($queueID);
+	
+	/**
 	 * Returns object type id for given object type.
 	 *
 	 * @param	string		$objectType
@@ -41,9 +49,10 @@ interface IModerationQueueManager {
 	 * Returns object type processor by object type.
 	 * 
 	 * @param	string		$objectType
+	 * @param	integer		$objectTypeID
 	 * @return	object
 	 */
-	public function getProcessor($objectType);
+	public function getProcessor($objectType, $objectTypeID = null);
 	
 	/**
 	 * Populates object properties for viewing.

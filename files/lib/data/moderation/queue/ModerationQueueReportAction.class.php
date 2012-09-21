@@ -55,7 +55,7 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 		
 		return array(
 			'alreadyReported' => $alreadyReported,
-			'template' => WCF::getTPL()->fetch('moderationReport')
+			'template' => WCF::getTPL()->fetch('moderationReportDialog')
 		);
 	}
 	

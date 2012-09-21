@@ -1,6 +1,9 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ViewableModerationQueue;
+
 use wcf\system\exception\SystemException;
+use wcf\system\request\LinkHandler;
 use wcf\system\WCF;
 
 /**
@@ -41,6 +44,23 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 		$row = $statement->fetchArray();
 		
 		return ($row['count'] == 0 ? false : true);
+	}
+	
+	/**
+	 * @see	wcf\system\moderation\queue\IModerationQueueManager::getLink()
+	 */
+	public function getLink($queueID) {
+		return LinkHandler::getInstance()->getLink('ModerationReport', array('id' => $queueID));
+	}
+	
+	/**
+	 * Returns rendered template for reported content.
+	 * 
+	 * @param	wcf\data\moderation\queue\ViewableModerationQueue	$queue
+	 * @return	string
+	 */
+	public function getReportedContent(ViewableModerationQueue $queue) {
+		return $this->getProcessor(null, $queue->objectTypeID)->getReportedContent($queue);
 	}
 	
 	/**

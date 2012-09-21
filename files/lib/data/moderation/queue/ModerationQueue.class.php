@@ -1,6 +1,7 @@
 <?php
 namespace wcf\data\moderation\queue;
 use wcf\data\DatabaseObject;
+use wcf\system\WCF;
 
 /**
  * Represents a moderation queue entry.
@@ -28,6 +29,50 @@ class ModerationQueue extends DatabaseObject {
 	const STATUS_PROCESSING = 1;
 	const STATUS_DONE = 2;
 	
-	const TYPE_MODERATED_CONTENT = 0;
-	const TYPE_REPORT = 1;
+	/**
+	 * @see	wcf\data\IStorableObject::__get()
+	 */
+	public function __get($name) {
+		$value = parent::__get($name);
+	
+		// treat additional data as data variables if it is an array
+		if ($value === null) {
+			if (is_array($this->data['additionalData']) && isset($this->data['additionalData'][$name])) {
+				$value = $this->data['additionalData'][$name];
+			}
+		}
+	
+		return $value;
+	}
+	
+	/**
+	 * @see	wcf\data\DatabaseObject::handleData()
+	 */
+	protected function handleData($data) {
+		parent::handleData($data);
+	
+		$this->data['additionalData'] = @unserialize($this->data['additionalData']);
+		if (!is_array($this->data['additionalData'])) {
+			$this->data['additionalData'] = array();
+		}
+	}
+	
+	/**
+	 * Returns true, if current user can edit this moderation queue.
+	 * 
+	 * @return	boolean
+	 */
+	public function canEdit() {
+		$sql = "SELECT	isAffected
+			FROM	wcf".WCF_N."_moderation_queue_to_user
+			WHERE	queueID = ?
+				AND userID = ?";
+		$statement = WCF::getDB()->prepareStatement($sql);
+		$statement->execute(array(
+			$this->queueID,
+			WCF::getUser()->userID
+		));
+		$row = $statement->fetchArray();
+		return ($row !== false && $row['isAffected']);
+	}
 }

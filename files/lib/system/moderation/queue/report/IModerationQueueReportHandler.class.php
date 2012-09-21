@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue\report;
+use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\moderation\queue\IModerationQueueHandler;
 
 /**
@@ -13,6 +14,14 @@ use wcf\system\moderation\queue\IModerationQueueHandler;
  * @category 	Community Framework
  */
 interface IModerationQueueReportHandler extends IModerationQueueHandler {
+	/**
+	 * Returns rendered template for reported content.
+	 * 
+	 * @param	wcf\data\moderation\queue\ViewableModerationQueue	$queue
+	 * @return	string
+	 */
+	public function getReportedContent(ViewableModerationQueue $queue);
+	
 	/**
 	 * Returns reported object.
 	 * 

@@ -45,8 +45,8 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 	/**
 	 * @see	wcf\system\moderation\queue\IModerationQueueManager::getProcessor()
 	 */
-	public function getProcessor($objectType) {
-		return ModerationQueueManager::getInstance()->getProcessor($this->definitionName, $objectType);
+	public function getProcessor($objectType, $objectTypeID = null) {
+		return ModerationQueueManager::getInstance()->getProcessor($this->definitionName, $objectType, $objectTypeID);
 	}
 	
 	/**

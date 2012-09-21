@@ -112,6 +112,23 @@ class ModerationQueueManager extends SingletonFactory {
 	}
 	
 	/**
+	 * Returns link for viewing/editing an object type.
+	 * 
+	 * @param	integer		$objectTypeID
+	 * @param	integer		$queueID
+	 * @return	string
+	 */
+	public function getLink($objectTypeID, $queueID) {
+		foreach ($this->objectTypeNames as $definitionName => $objectTypeIDs) {
+			if (in_array($objectTypeID, $objectTypeIDs)) {
+				return $this->moderationTypes[$definitionName]->getProcessor()->getLink($queueID);
+			}
+		}
+		
+		return '';
+	}
+	
+	/**
 	 * Returns object type id.
 	 * 
 	 * @param	string		$definitionName
