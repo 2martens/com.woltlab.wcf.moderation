@@ -195,16 +195,15 @@ class ModerationQueueManager extends SingletonFactory {
 		// load storage data
 		UserStorageHandler::getInstance()->loadStorage(array(WCF::getUser()->userID));
 		
-		// get ids
+		// get count
 		$data = UserStorageHandler::getInstance()->getStorage(array(WCF::getUser()->userID), 'outstandingModerationCount');
+		$count = $data[WCF::getUser()->userID];
 		
 		// cache does not exist or is outdated
-		if ($data[WCF::getUser()->userID] === null) {
+		if ($count === null) {
 			// force update of non-tracked queues for this user
 			$queueList = new ModerationQueueList();
-			$queueList->sqlJoins = ", wcf".WCF_N."_moderation_queue_to_user moderation_queue_to_user";
-			$queueList->getConditionBuilder()->add("moderation_queue_to_user.queueID = moderation_queue.queueID");
-			$queueList->getConditionBuilder()->add("moderation_queue_to_user.userID = ?", array(WCF::getUser()->userID));
+			$queueList->sqlJoins = "LEFT JOIN wcf".WCF_N."_moderation_queue_to_user moderation_queue_to_user ON (moderation_queue_to_user.queueID = moderation_queue.queueID AND moderation_queue_to_user.userID = ".WCF::getUser()->userID.")";
 			$queueList->getConditionBuilder()->add("moderation_queue_to_user.queueID IS NULL");
 			$queueList->sqlLimit = 0;
 			$queueList->readObjects();
@@ -222,7 +221,7 @@ class ModerationQueueManager extends SingletonFactory {
 				foreach ($this->objectTypeNames as $definitionName => $objectTypeIDs) {
 					foreach ($objectTypeIDs as $objectTypeID) {
 						if (isset($queues[$objectTypeID])) {
-							$this->moderationTypes[$definitionName]->getProcessor()->assignQueues($queues[$objectTypeID]);
+							$this->moderationTypes[$definitionName]->getProcessor()->assignQueues($objectTypeID, $queues[$objectTypeID]);
 						}
 					}
 				}
@@ -246,10 +245,29 @@ class ModerationQueueManager extends SingletonFactory {
 			// update storage data
 			UserStorageHandler::getInstance()->update(WCF::getUser()->userID, 'outstandingModerationCount', $count, PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
 		}
-		else {
-			$count = $data[WCF::getUser()->userID];
-		}
 		
 		return $count;
+	}
+	
+	/**
+	 * Saves moderation queue assignments.
+	 * 
+	 * @param	array<boolean>		$assignments
+	 */
+	public function setAssignment(array $assignments) {
+		$sql = "INSERT INTO	wcf".WCF_N."_moderation_queue_to_user
+					(queueID, userID, isAffected)
+			VALUES		(?, ?, ?)";
+		$statement = WCF::getDB()->prepareStatement($sql);
+		
+		WCF::getDB()->beginTransaction();
+		foreach ($assignments as $queueID => $isAffected) {
+			$statement->execute(array(
+				$queueID,
+				WCF::getUser()->userID,
+				$isAffected
+			));
+		}
+		WCF::getDB()->commitTransaction();
 	}
 }
