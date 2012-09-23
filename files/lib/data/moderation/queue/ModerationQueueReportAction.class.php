@@ -1,5 +1,6 @@
 <?php
 namespace wcf\data\moderation\queue;
+use wcf\system\exception\PermissionDeniedException;
 use wcf\system\exception\UserInputException;
 use wcf\system\moderation\queue\ModerationQueueReportManager;
 use wcf\system\WCF;
@@ -19,7 +20,56 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 	/**
 	 * @see	wcf\data\AbstractDatabaseObjectAction::$allowGuestAccess
 	 */
-	protected $allowGuestAccess = array('prepareReport', 'report');
+	protected $allowGuestAccess = array('prepareReport', 'removeContent', 'removeReport', 'report');
+	
+	/**
+	 * moderation queue editor object
+	 * @var	wcf\data\moderation\queue\ModerationQueueEditor
+	 */
+	public $queue = null;
+	
+	/**
+	 * Validates parameters to delete reported content.
+	 */
+	public function validateRemoveContent() {
+		$this->validateRemoveReport();
+		
+		$this->parameters['message'] = (isset($this->parameters['message']) ? StringUtil::trim($this->parameters['message']) : '');
+	}
+	
+	/**
+	 * Deletes reported content.
+	 */
+	public function removeContent() {
+		// mark content as deleted
+		ModerationQueueReportManager::getInstance()->removeContent($this->queue->getDecoratedObject(), $this->parameters['message']);
+		
+		$this->queue->markAsDone();
+	}
+	
+	/**
+	 * Validates parameters to mark this report as done.
+	 */
+	public function validateRemoveReport() {
+		if (empty($this->objects)) {
+			$this->readObjects();
+			if (empty($this->objects)) {
+				throw new UserInputException('objectIDs');
+			}
+		}
+		
+		$this->queue = current($this->objects);
+		if (!$this->queue->canEdit()) {
+			throw new PermissionDeniedException();
+		}
+	}
+	
+	/**
+	 * Removes this report by marking it as done without further processing.
+	 */
+	public function removeReport() {
+		$this->queue->markAsDone();
+	}
 	
 	/**
 	 * Validates parameters to prepare a report.

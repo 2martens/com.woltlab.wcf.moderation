@@ -22,4 +22,15 @@ class ModerationQueueAction extends AbstractDatabaseObjectAction {
 	 * @see wcf\data\AbstractDatabaseObjectAction::$className
 	 */
 	protected $className = 'wcf\data\moderation\queue\ModerationQueueEditor';
+	
+	/**
+	 * @see	wcf\data\AbstractDatabaseObjectAction::update()
+	 */
+	public function update() {
+		if (!isset($this->parameters['data']['lastChangeTime'])) {
+			$this->parameters['data']['lastChangeTime'] = TIME_NOW;
+		}
+		
+		parent::update();
+	}
 }

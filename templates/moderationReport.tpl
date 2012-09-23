@@ -4,6 +4,15 @@
 	<title>{lang}wcf.moderation.report{/lang} - {PAGE_TITLE|language}</title>
 	
 	{include file='headInclude'}
+	
+	<script type="text/javascript" src="{@$__wcf->getPath()}js/WCF.Moderation.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		$(function() {
+			new WCF.Moderation.Report.Management({@$queue->queueID}, '{link controller='ModerationList'}{/link}');
+		});
+		//]]>
+	</script>
 </head>
 
 <body id="tpl{$templateName|ucfirst}">
@@ -27,7 +36,7 @@
 	</nav>
 </div>
 
-<form method="post" action="{link controller='ModerationReport' id=$queue->queueID}{/link}">
+<form method="post" action="{link controller='ModerationReport' id=$queue->queueID}{/link}" class="container containerPadding marginTop">
 	<fieldset>
 		<legend>{lang}wcf.moderation.report.details{/lang}</legend>
 		
@@ -80,8 +89,13 @@
 	<fieldset>
 		<legend>{lang}wcf.moderation.report.reportedContent{/lang}</legend>
 		
-		<div class="container containerPadding">
+		<div>
 			{@$reportedContent}
+		</div>
+		
+		<div class="formSubmit">
+			<input type="button" value="{lang}wcf.moderation.report.removeContent{/lang}" id="removeContent" />
+			<input type="button" value="{lang}wcf.moderation.report.removeReport{/lang}" id="removeReport" />
 		</div>
 	</fieldset>
 </form>

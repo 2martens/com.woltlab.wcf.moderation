@@ -287,4 +287,11 @@ class ModerationQueueManager extends SingletonFactory {
 		}
 		WCF::getDB()->commitTransaction();
 	}
+	
+	/**
+	 * Resets moderation count for all users.
+	 */
+	public function resetModerationCount() {
+		UserStorageHandler::getInstance()->resetAll('outstandingModerationCount', PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+	}
 }

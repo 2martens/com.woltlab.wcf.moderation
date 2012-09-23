@@ -1,5 +1,6 @@
 <?php
 namespace wcf\form;
+use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ModerationQueueAction;
 use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\exception\IllegalLinkException;
@@ -117,10 +118,24 @@ class ModerationReportForm extends AbstractForm {
 	public function save() {
 		parent::save();
 		
-		$this->objectAction = new ModerationQueueAction(array($this->queue->getDecoratedObject()), 'update', array('data' => array(
+		$data = array(
 			'assignedUserID' => ($this->assignedUserID ? $this->assignedUserID : null),
 			'comment' => $this->comment
-		)));
+		);
+		if ($this->assignedUserID) {
+			// queue item is being processed
+			if ($this->assignedUserID != $this->queue->assignedUserID) {
+				$data['status'] = ModerationQueue::STATUS_PROCESSING;
+			}
+		}
+		else {
+			// queue is no longer processed, mark as outstanding
+			if ($this->queue->assignedUserID) {
+				$data['status'] = ModerationQueue::STATUS_OUTSTANDING;
+			}
+		}
+		
+		$this->objectAction = new ModerationQueueAction(array($this->queue->getDecoratedObject()), 'update', array('data' => $data));
 		$this->objectAction->executeAction();
 		
 		// call saved event

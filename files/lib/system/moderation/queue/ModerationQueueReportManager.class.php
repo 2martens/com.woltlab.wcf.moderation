@@ -1,5 +1,7 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ModerationQueue;
+
 use wcf\data\moderation\queue\ViewableModerationQueue;
 
 use wcf\system\exception\SystemException;
@@ -72,6 +74,17 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 	 */
 	public function getReportedObject($objectType, $objectID) {
 		return $this->getProcessor($objectType)->getReportedObject($objectID);
+	}
+	
+	/**
+	 * Removes previously reported content. It is up to the processing object to
+	 * use a soft-delete or remove the content permanently.
+	 * 
+	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
+	 * @param	string						$message
+	 */
+	public function removeContent(ModerationQueue $queue, $message = '') {
+		$this->getProcessor(null, $queue->objectTypeID)->removeContent($queue, $message);
 	}
 	
 	/**

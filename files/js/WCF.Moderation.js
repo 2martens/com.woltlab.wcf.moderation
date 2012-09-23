@@ -1,7 +1,16 @@
 /**
  * Namespace for moderation related classes.
+ * 
+ * @author	Alexander Ebert
+ * @copyright	2001-2012 WoltLab GmbH
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  */
 WCF.Moderation = { };
+
+/**
+ * Namespace for report related classes.
+ */
+WCF.Moderation.Report = { };
 
 /**
  * Handles content report.
@@ -9,7 +18,7 @@ WCF.Moderation = { };
  * @param	string		objectType
  * @param	string		buttonSelector
  */
-WCF.Moderation.Report = Class.extend({
+WCF.Moderation.Report.Content = Class.extend({
 	/**
 	 * list of buttons
 	 * @var	object
@@ -173,5 +182,79 @@ WCF.Moderation.Report = Class.extend({
 			});
 			this._proxy.sendRequest();
 		}
+	}
+});
+
+/**
+ * Report management within moderation.
+ * 
+ * @param	integer		queueID
+ * @param	string		redirectURL
+ */
+WCF.Moderation.Report.Management = Class.extend({
+	/**
+	 * action proxy
+	 * @var	WCF.Action.Proxy
+	 */
+	_proxy: null,
+	
+	/**
+	 * queue id
+	 * @var	integer
+	 */
+	_queueID: 0,
+	
+	/**
+	 * redirect URL
+	 * @var	string
+	 */
+	_redirectURL: '',
+	
+	/**
+	 * Initializes the moderation report management.
+	 * 
+	 * @param	integer		queueID
+	 * @param	string		redirectURL
+	 */
+	init: function(queueID, redirectURL) {
+		this._queueID = queueID;
+		this._redirectURL = redirectURL;
+		
+		this._proxy = new WCF.Action.Proxy({
+			success: $.proxy(this._success, this)
+		});
+		
+		$('#removeContent, #removeReport').click($.proxy(this._click, this));
+	},
+	
+	/**
+	 * Handles clicks on the action buttons.
+	 * 
+	 * @param	object		event
+	 */
+	_click: function(event) {
+		this._proxy.setOption('data', {
+			actionName: $(event.currentTarget).wcfIdentify(),
+			className: 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction',
+			objectIDs: [ this._queueID ]
+		});
+		this._proxy.sendRequest();
+		
+		$('#removeContent, #removeReport').disable();
+	},
+	
+	/**
+	 * Handles successful AJAX requests.
+	 * 
+	 * @param	object		data
+	 * @param	string		textStatus
+	 * @param	jQuery		jqXHR
+	 */
+	_success: function(data, textStatus, jqXHR) {
+		var $notification = new WCF.System.Notification(WCF.Language.get('wcf.moderation.success'));
+		var self = this;
+		$notification.show(function() {
+			window.location = self._redirectURL;
+		});
 	}
 });

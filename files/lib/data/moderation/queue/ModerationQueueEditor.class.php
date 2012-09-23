@@ -1,6 +1,7 @@
 <?php
 namespace wcf\data\moderation\queue;
 use wcf\data\DatabaseObjectEditor;
+use wcf\system\moderation\queue\ModerationQueueManager;
 
 /**
  * Extends the moderation queue object with functions to create, update and delete queue entries.
@@ -23,6 +24,9 @@ class ModerationQueueEditor extends DatabaseObjectEditor {
 	 */
 	public function markAsDone() {
 		$this->update(array('status' => ModerationQueue::STATUS_DONE));
+		
+		// reset moderation count
+		ModerationQueueManager::getInstance()->resetModerationCount();
 	}
 	
 	/**
