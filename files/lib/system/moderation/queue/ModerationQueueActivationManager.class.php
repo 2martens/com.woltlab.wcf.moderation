@@ -12,17 +12,17 @@ use wcf\system\exception\SystemException;
  * @subpackage	system.moderation.queue
  * @category 	Community Framework
  */
-class ModerationQueueModeratedContentManager extends AbstractModerationQueueManager {
+class ModerationQueueActivationManager extends AbstractModerationQueueManager {
 	/**
 	 * @see	wcf\system\moderation\queue\AbstractModerationQueueManager::$definitionName
 	 */
-	protected $definitionName = 'com.woltlab.wcf.moderation.moderatedContent';
+	protected $definitionName = 'com.woltlab.wcf.moderation.activation';
 	
 	/**
 	 * @see	wcf\system\moderation\queue\IModerationQueueManager::getLink()
 	 */
 	public function getLink($queueID) {
-		return LinkHandler::getInstance()->getLink('ModerationModeratedContent', array('id' => $queueID));
+		return LinkHandler::getInstance()->getLink('ModerationActivation', array('id' => $queueID));
 	}
 	
 	/**
@@ -34,7 +34,7 @@ class ModerationQueueModeratedContentManager extends AbstractModerationQueueMana
 	 */
 	public function addModeratedContent($objectType, $objectID, array $additionalData = array()) {
 		if (!$this->isValid($objectType)) {
-			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderation.moderatedContent'");
+			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderation.activation'");
 		}
 		
 		$this->addEntry(

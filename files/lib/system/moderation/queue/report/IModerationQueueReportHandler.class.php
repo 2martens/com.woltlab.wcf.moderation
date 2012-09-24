@@ -30,13 +30,4 @@ interface IModerationQueueReportHandler extends IModerationQueueHandler {
 	 * @return	wcf\data\IUserContent
 	 */
 	public function getReportedObject($objectID);
-	
-	/**
-	 * Removes previously reported content. It is up to the processing class to either
-	 * soft-delete the content or remove it permanently.
-	 * 
-	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
-	 * @param	string						$message
-	 */
-	public function removeContent(ModerationQueue $queue, $message);
 }

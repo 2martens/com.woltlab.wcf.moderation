@@ -41,4 +41,13 @@ interface IModerationQueueHandler {
 	 * @param	array<wcf\data\moderation\queue\ViewableModerationQueue>	$objects
 	 */
 	public function populate(array $objects);
+	
+	/**
+	 * Removes moderated content. It is up to the processing class to either
+	 * soft-delete the content or remove it permanently.
+	 *
+	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
+	 * @param	string						$message
+	 */
+	public function removeContent(ModerationQueue $queue, $message);
 }

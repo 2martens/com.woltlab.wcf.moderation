@@ -7,8 +7,8 @@
 		</definition>
 		
 		<definition>
-			<name>com.woltlab.wcf.moderation.moderatedContent</name>
-			<interfacename>wcf\system\moderation\queue\content\IModerationQueueModeratedContentHandler</interfacename>
+			<name>com.woltlab.wcf.moderation.activation</name>
+			<interfacename>wcf\system\moderation\queue\content\IModerationQueueActivationHandler</interfacename>
 		</definition>
 		
 		<definition>
