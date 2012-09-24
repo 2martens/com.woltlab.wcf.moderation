@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ModerationQueue;
 
 /**
  * Default interface for moderation queue handlers.
@@ -38,9 +39,9 @@ interface IModerationQueueHandler {
 	/**
 	 * Populates object properties for viewing.
 	 * 
-	 * @param	array<wcf\data\moderation\queue\ViewableModerationQueue>	$objects
+	 * @param	array<wcf\data\moderation\queue\ViewableModerationQueue>	$queues
 	 */
-	public function populate(array $objects);
+	public function populate(array $queues);
 	
 	/**
 	 * Removes moderated content. It is up to the processing class to either

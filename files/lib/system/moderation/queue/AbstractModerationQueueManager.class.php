@@ -78,25 +78,17 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 			)
 		));
 		$objectAction->executeAction();
+		
+		ModerationQueueManager::getInstance()->resetModerationCount();
 	}
 	
 	/**
-	 * Removes an entry from moderation queue.
-	 * 
-	 * @param	integer		$objectTypeID
-	 * @param	integer		$objectID
-	 */
-	protected function removeEntry($objectTypeID, $objectID) {
-		$this->removeEntries($objectTypeID, array($objectID));
-	}
-	
-	/**
-	 * Removes a list of entries from moderation queue.
+	 * Marks a list of moderation queue entries as done.
 	 * 
 	 * @param	integer		$objectTypeID
 	 * @param	array<integer>	$objectIDs
 	 */
-	protected function removeEntries($objectTypeID, $objectIDs) {
+	protected function removeEntries($objectTypeID, array $objectIDs) {
 		$queueList = new ModerationQueueList();
 		$queueList->getConditionBuilder()->add("moderation_queue.objectTypeID = ?", array($objectTypeID));
 		$queueList->getConditionBuilder()->add("moderation_queue.objectID IN (?)", array($objectIDs));
@@ -104,7 +96,7 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 		$queueList->readObjects();
 		
 		if (count($queueList)) {
-			$objectAction = new ModerationQueueAction($queueList->getObjects(), 'delete');
+			$objectAction = new ModerationQueueAction($queueList->getObjects(), 'markAsDone');
 			$objectAction->executeAction();
 		}
 	}

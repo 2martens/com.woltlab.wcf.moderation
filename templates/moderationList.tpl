@@ -64,7 +64,7 @@
 					<th class="columnText columnUserID{if $sortField == 'reportingUsername'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=reportingUsername&sortOrder={if $sortField == 'reportingUsername' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.reportedBy{/lang}{if $sortField == 'reportingUsername'} <img src="{icon size='S'}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
 					<th class="columnDate columnLastChangeTime{if $sortField == 'lastChangeTime'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=lastChangeTime&sortOrder={if $sortField == 'lastChangeTime' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.lastChangeTime{/lang}{if $sortField == 'lastChangeTime'} <img src="{icon size='S'}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
 					<th class="columnText columnAssignedUserID{if $sortField == 'assignedUsername'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=assignedUsername&sortOrder={if $sortField == 'assignedUsername' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.assignedUser{/lang}{if $sortField == 'assignedUsername'} <img src="{icon size='S'}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
-					<th class="columnText columnType">{lang}wcf.moderation.type{/lang}</th>
+					{if !$definitionID}<th class="columnText columnType">{lang}wcf.moderation.{$availableDefinitions[$definitionID]}{/lang}</th>{/if}
 				</tr>
 			</thead>
 			
@@ -78,7 +78,7 @@
 							<td>{if $entry->userID}<a href="{link controller='User' id=$entry->userID}{/link}" class="userLink" data-user-id="{@$entry->userID}">{$entry->reportingUsername}</a>{else}{lang}wcf.global.guest{/lang}{/if}</td>
 							<td>{if $entry->lastChangeTime}{@$entry->lastChangeTime|time}{/if}</td>
 							<td>{if $entry->assignedUserID}<a href="{link controller='User' id=$entry->assignedUserID}{/link}" class="userLink" data-user-id="{@$entry->assignedUserID}">{$entry->assignedUsername}</a>{/if}</td>
-							<td>{lang}wcf.moderation.type.foo{/lang}</td>
+							{if !$definitionID}<td>{lang}wcf.moderation.type.foo{/lang}</td>{/if}
 						</tr>
 					{/foreach}
 				{/content}

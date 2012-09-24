@@ -47,7 +47,7 @@ class ModerationQueueActivationManager extends AbstractModerationQueueManager {
 	}
 	
 	/**
-	 * Removes entries from moderation queue.
+	 * Marks entries from moderation queue as done.
 	 * 
 	 * @param	string		$objectType
 	 * @param	array<integer>	$objectIDs

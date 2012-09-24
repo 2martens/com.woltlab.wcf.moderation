@@ -289,9 +289,16 @@ class ModerationQueueManager extends SingletonFactory {
 	}
 	
 	/**
-	 * Resets moderation count for all users.
+	 * Resets moderation count for all users or optionally only for one user.
+	 * 
+	 * @param	integer		$userID
 	 */
-	public function resetModerationCount() {
-		UserStorageHandler::getInstance()->resetAll('outstandingModerationCount', PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+	public function resetModerationCount($userID = null) {
+		if ($userID === null) {
+			UserStorageHandler::getInstance()->resetAll('outstandingModerationCount', PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+		}
+		else {
+			UserStorageHandler::getInstance()->reset(array($userID), 'outstandingModerationCount', PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+		}
 	}
 }

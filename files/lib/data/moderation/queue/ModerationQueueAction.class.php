@@ -1,6 +1,7 @@
 <?php
 namespace wcf\data\moderation\queue;
 use wcf\data\AbstractDatabaseObjectAction;
+use wcf\system\database\util\PreparedStatementConditionBuilder;
 use wcf\system\exception\IllegalLinkException;
 use wcf\system\exception\UserInputException;
 use wcf\system\moderation\queue\ModerationQueueManager;
@@ -32,5 +33,31 @@ class ModerationQueueAction extends AbstractDatabaseObjectAction {
 		}
 		
 		parent::update();
+	}
+	
+	/**
+	 * Marks a list of objects as done.
+	 */
+	public function markAsDone() {
+		if (empty($this->objects)) {
+			$this->readObjects();
+		}
+		
+		$queueIDs = array();
+		foreach ($this->objects as $queue) {
+			$queueIDs[] = $queue->queueID;
+		}
+		
+		$conditions = new PreparedStatementConditionBuilder();
+		$conditions->add("queueID IN (?)", array($queueIDs));
+		
+		$sql = "UPDATE	wcf".WCF_N."_moderation_queue
+			SET	status = ".ModerationQueue::STATUS_DONE."
+			".$conditions;
+		$statement = WCF::getDB()->prepareStatement($sql);
+		$statement->execute($conditions->getParameters());
+		
+		// reset number of active moderation queue items
+		ModerationQueueManager::getInstance()->resetModerationCount();
 	}
 }
