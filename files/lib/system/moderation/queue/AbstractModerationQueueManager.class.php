@@ -1,5 +1,7 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ModerationQueueList;
+
 use wcf\data\moderation\queue\ModerationQueueAction;
 use wcf\system\SingletonFactory;
 use wcf\system\WCF;
@@ -76,5 +78,34 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 			)
 		));
 		$objectAction->executeAction();
+	}
+	
+	/**
+	 * Removes an entry from moderation queue.
+	 * 
+	 * @param	integer		$objectTypeID
+	 * @param	integer		$objectID
+	 */
+	protected function removeEntry($objectTypeID, $objectID) {
+		$this->removeEntries($objectTypeID, array($objectID));
+	}
+	
+	/**
+	 * Removes a list of entries from moderation queue.
+	 * 
+	 * @param	integer		$objectTypeID
+	 * @param	array<integer>	$objectIDs
+	 */
+	protected function removeEntries($objectTypeID, $objectIDs) {
+		$queueList = new ModerationQueueList();
+		$queueList->getConditionBuilder()->add("moderation_queue.objectTypeID = ?", array($objectTypeID));
+		$queueList->getConditionBuilder()->add("moderation_queue.objectID IN (?)", array($objectIDs));
+		$queueList->sqlLimit = 0;
+		$queueList->readObjects();
+		
+		if (count($queueList)) {
+			$objectAction = new ModerationQueueAction($queueList->getObjects(), 'delete');
+			$objectAction->executeAction();
+		}
 	}
 }

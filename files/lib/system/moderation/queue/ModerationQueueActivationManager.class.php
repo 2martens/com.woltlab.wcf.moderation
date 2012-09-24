@@ -1,6 +1,7 @@
 <?php
 namespace wcf\system\moderation\queue;
 use wcf\system\exception\SystemException;
+use wcf\system\request\LinkHandler;
 
 /**
  * Moderation queue implementation for moderated content.
@@ -43,5 +44,19 @@ class ModerationQueueActivationManager extends AbstractModerationQueueManager {
 			$this->getProcessor($objectType)->getContainerID($objectID),
 			$additionalData
 		);
+	}
+	
+	/**
+	 * Removes entries from moderation queue.
+	 * 
+	 * @param	string		$objectType
+	 * @param	array<integer>	$objectIDs
+	 */
+	public function removeModeratedContent($objectType, array $objectIDs) {
+		if (!$this->isValid($objectType)) {
+			throw new SystemException("Object type '".$objectType."' is not valid for definition 'com.woltlab.wcf.moderation.activation'");
+		}
+		
+		$this->removeEntries($this->getObjectTypeID($objectType), $objectIDs);
 	}
 }
