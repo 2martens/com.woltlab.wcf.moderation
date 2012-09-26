@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ModerationQueue;
 
 /**
  * Default interface for moderation queue managers.
@@ -61,4 +62,13 @@ interface IModerationQueueManager {
 	 * @param	array<wcf\data\moderation\queue\ViewableModerationQueue>	$objects
 	 */
 	public function populate($objectTypeID, array $objects);
+	
+	/**
+	 * Removes affected content. It is up to the processing object to
+	 * use a soft-delete or remove the content permanently.
+	 *
+	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
+	 * @param	string						$message
+	 */
+	public function removeContent(ModerationQueue $queue, $message = '');
 }

@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\exception\SystemException;
 use wcf\system\request\LinkHandler;
@@ -19,6 +20,15 @@ class ModerationQueueActivationManager extends AbstractModerationQueueManager {
 	 * @see	wcf\system\moderation\queue\AbstractModerationQueueManager::$definitionName
 	 */
 	protected $definitionName = 'com.woltlab.wcf.moderation.activation';
+	
+	/**
+	 * Enables affected content.
+	 * 
+	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
+	 */
+	public function enableContent(ModerationQueue $queue) {
+		$this->getProcessor(null, $queue->objectTypeID)->enableContent($queue);
+	}
 	
 	/**
 	 * Returns outstanding content.

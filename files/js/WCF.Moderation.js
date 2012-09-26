@@ -8,6 +8,123 @@
 WCF.Moderation = { };
 
 /**
+ * Moderation queue management.
+ * 
+ * @param	integer		queueID
+ * @param	string		redirectURL
+ */
+WCF.Moderation.Management = Class.extend({
+	/**
+	 * button selector
+	 * @var	string
+	 */
+	_buttonSelector: '',
+	
+	/**
+	 * action class name
+	 * @var	string
+	 */
+	_className: '',
+	
+	/**
+	 * action proxy
+	 * @var	WCF.Action.Proxy
+	 */
+	_proxy: null,
+	
+	/**
+	 * queue id
+	 * @var	integer
+	 */
+	_queueID: 0,
+	
+	/**
+	 * redirect URL
+	 * @var	string
+	 */
+	_redirectURL: '',
+	
+	/**
+	 * Initializes the moderation report management.
+	 * 
+	 * @param	integer		queueID
+	 * @param	string		redirectURL
+	 */
+	init: function(queueID, redirectURL) {
+		if (!this._buttonSelector) {
+			console.debug("[WCF.Moderation.Management] Missing button selector, aborting.");
+			return;
+		}
+		else if (!this._className) {
+			console.debug("[WCF.Moderation.Management] Missing class name, aborting.");
+			return;
+		}
+		
+		this._queueID = queueID;
+		this._redirectURL = redirectURL;
+		
+		this._proxy = new WCF.Action.Proxy({
+			success: $.proxy(this._success, this)
+		});
+		
+		$(this._buttonSelector).click($.proxy(this._click, this));
+	},
+	
+	/**
+	 * Handles clicks on the action buttons.
+	 * 
+	 * @param	object		event
+	 */
+	_click: function(event) {
+		this._proxy.setOption('data', {
+			actionName: $(event.currentTarget).wcfIdentify(),
+			className: this._className,
+			objectIDs: [ this._queueID ]
+		});
+		this._proxy.sendRequest();
+		
+		$(this._buttonSelector).disable();
+	},
+	
+	/**
+	 * Handles successful AJAX requests.
+	 * 
+	 * @param	object		data
+	 * @param	string		textStatus
+	 * @param	jQuery		jqXHR
+	 */
+	_success: function(data, textStatus, jqXHR) {
+		var $notification = new WCF.System.Notification(WCF.Language.get('wcf.moderation.success'));
+		var self = this;
+		$notification.show(function() {
+			window.location = self._redirectURL;
+		});
+	}
+});
+
+/**
+ * Namespace for activation related classes.
+ */
+WCF.Moderation.Activation = { };
+
+/**
+ * Manages disabled content within moderation.
+ * 
+ * @see	WCF.Moderation.Management
+ */
+WCF.Moderation.Activation.Management = WCF.Moderation.Management.extend({
+	/**
+	 * @see	WCF.Moderation.Management.init()
+	 */
+	init: function(queueID, redirectURL) {
+		this._buttonSelector = '#enableContent, #removeContent';
+		this._className = 'wcf\\data\\moderation\\queue\\ModerationQueueActivationAction';
+		
+		this._super(queueID, redirectURL);
+	}
+});
+
+/**
  * Namespace for report related classes.
  */
 WCF.Moderation.Report = { };
@@ -186,75 +303,18 @@ WCF.Moderation.Report.Content = Class.extend({
 });
 
 /**
- * Report management within moderation.
+ * Manages reported content within moderation.
  * 
- * @param	integer		queueID
- * @param	string		redirectURL
+ * @see	WCF.Moderation.Management
  */
-WCF.Moderation.Report.Management = Class.extend({
+WCF.Moderation.Report.Management = WCF.Moderation.Management.extend({
 	/**
-	 * action proxy
-	 * @var	WCF.Action.Proxy
-	 */
-	_proxy: null,
-	
-	/**
-	 * queue id
-	 * @var	integer
-	 */
-	_queueID: 0,
-	
-	/**
-	 * redirect URL
-	 * @var	string
-	 */
-	_redirectURL: '',
-	
-	/**
-	 * Initializes the moderation report management.
-	 * 
-	 * @param	integer		queueID
-	 * @param	string		redirectURL
+	 * @see	WCF.Moderation.Management.init()
 	 */
 	init: function(queueID, redirectURL) {
-		this._queueID = queueID;
-		this._redirectURL = redirectURL;
+		this._buttonSelector = '#removeContent, #removeReport';
+		this._className = 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction';
 		
-		this._proxy = new WCF.Action.Proxy({
-			success: $.proxy(this._success, this)
-		});
-		
-		$('#removeContent, #removeReport').click($.proxy(this._click, this));
-	},
-	
-	/**
-	 * Handles clicks on the action buttons.
-	 * 
-	 * @param	object		event
-	 */
-	_click: function(event) {
-		this._proxy.setOption('data', {
-			actionName: $(event.currentTarget).wcfIdentify(),
-			className: 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction',
-			objectIDs: [ this._queueID ]
-		});
-		this._proxy.sendRequest();
-		
-		$('#removeContent, #removeReport').disable();
-	},
-	
-	/**
-	 * Handles successful AJAX requests.
-	 * 
-	 * @param	object		data
-	 * @param	string		textStatus
-	 * @param	jQuery		jqXHR
-	 */
-	_success: function(data, textStatus, jqXHR) {
-		var $notification = new WCF.System.Notification(WCF.Language.get('wcf.moderation.success'));
-		var self = this;
-		$notification.show(function() {
-			window.location = self._redirectURL;
-		});
+		this._super(queueID, redirectURL);
 	}
 });

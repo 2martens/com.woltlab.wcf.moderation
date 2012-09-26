@@ -15,6 +15,13 @@ use wcf\system\moderation\queue\IModerationQueueHandler;
  */
 interface IModerationQueueActivationHandler extends IModerationQueueHandler {
 	/**
+	 * Enables affected content.
+	 * 
+	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
+	 */
+	public function enableContent(ModerationQueue $queue);
+	
+	/**
 	 * Returns rendered template for disabled content.
 	 * 
 	 * @param	wcf\data\moderation\queue\ViewableModerationQueue	$queue

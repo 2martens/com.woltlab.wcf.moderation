@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ModerationQueueAction;
 use wcf\data\moderation\queue\ModerationQueueList;
 use wcf\system\SingletonFactory;
@@ -55,6 +56,13 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 	 */
 	public function populate($objectTypeID, array $objects) {
 		ModerationQueueManager::getInstance()->getProcessor($this->definitionName, null, $objectTypeID)->populate($objects);
+	}
+	
+	/**
+	 * @see	wcf\system\moderation\queue\IModerationQueueManager::removeContent()
+	 */
+	public function removeContent(ModerationQueue $queue, $message = '') {
+		$this->getProcessor(null, $queue->objectTypeID)->removeContent($queue, $message);
 	}
 	
 	/**

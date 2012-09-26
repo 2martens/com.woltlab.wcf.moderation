@@ -44,7 +44,7 @@ interface IModerationQueueHandler {
 	public function populate(array $queues);
 	
 	/**
-	 * Removes moderated content. It is up to the processing class to either
+	 * Removes affected content. It is up to the processing class to either
 	 * soft-delete the content or remove it permanently.
 	 *
 	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
