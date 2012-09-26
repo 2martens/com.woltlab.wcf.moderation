@@ -1,5 +1,6 @@
 <?php
 namespace wcf\page;
+use wcf\data\moderation\queue\ModerationQueue;
 use wcf\system\exception\IllegalLinkException;
 use wcf\system\moderation\queue\ModerationQueueManager;
 use wcf\system\WCF;
@@ -16,6 +17,12 @@ use wcf\util\StringUtil;
  * @category 	Community Framework
  */
 class ModerationListPage extends SortablePage {
+	/**
+	 * assigned user id
+	 * @var	integer
+	 */
+	public $assignedUserID = -1;
+	
 	/**
 	 * list of available definitions
 	 * @var	array<string>
@@ -49,6 +56,12 @@ class ModerationListPage extends SortablePage {
 	public $objectListClassName = 'wcf\data\moderation\queue\ViewableModerationQueueList';
 	
 	/**
+	 * status bit
+	 * @var	integer
+	 */
+	public $status = -1;
+	
+	/**
 	 * @see	wcf\page\SortablePage::$validSortFields
 	 */
 	public $validSortFields = array('assignedUsername', 'id', 'lastChangeTime', 'reportingUsername', 'time');
@@ -58,6 +71,9 @@ class ModerationListPage extends SortablePage {
 	 */
 	public function readParameters() {
 		parent::readParameters();
+		
+		if (isset($_REQUEST['assignedUserID'])) $this->assignedUserID = intval($_REQUEST['assignedUserID']);
+		if (isset($_REQUEST['status'])) $this->status = intval($_REQUEST['status']);
 		
 		$this->availableDefinitions = ModerationQueueManager::getInstance()->getDefinitions();
 		if (isset($_REQUEST['definitionID'])) {
@@ -78,12 +94,16 @@ class ModerationListPage extends SortablePage {
 		$objectTypeIDs = ModerationQueueManager::getInstance()->getObjectTypeIDs( ($this->definitionID ? array($this->definitionID) : array_keys($this->availableDefinitions)) );
 		$this->objectList->getConditionBuilder()->add("moderation_queue.objectTypeID IN (?)", array($objectTypeIDs));
 		
-		// filter by affected user
-		/*
-		$this->objectList->sqlJoins = ", wcf".WCF_N."_moderation_queue_to_user moderation_queue_to_user";
-		$this->objectList->getConditionBuilder()->add("moderation_queue_to_user.queueID = moderation_queue.queueID");
-		$this->objectList->getConditionBuilder()->add("moderation_queue_to_user.userID = ?", array(WCF::getUser()->userID));
-		*/
+		// filter by assigned user id
+		if ($this->assignedUserID > -1) $this->objectList->getConditionBuilder()->add("moderation_queue.assignedUserID = ?", array($this->assignedUserID));
+		
+		// filter by status
+		if ($this->status == ModerationQueue::STATUS_DONE) {
+			$this->objectList->getConditionBuilder()->add("moderation_queue.status = ?", array(ModerationQueue::STATUS_DONE));
+		}
+		else {
+			$this->objectList->getConditionBuilder()->add("moderation_queue.status IN (?)", array(array(ModerationQueue::STATUS_OUTSTANDING, ModerationQueue::STATUS_PROCESSING)));
+		}
 	}
 	
 	/**
@@ -93,8 +113,10 @@ class ModerationListPage extends SortablePage {
 		parent::assignVariables();
 		
 		WCF::getTPL()->assign(array(
+			'assignedUserID' => $this->assignedUserID,
 			'availableDefinitions' => $this->availableDefinitions,
-			'definitionID' => $this->definitionID
+			'definitionID' => $this->definitionID,
+			'status' => $this->status
 		));
 	}
 }

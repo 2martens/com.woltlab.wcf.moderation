@@ -1,10 +1,8 @@
 <?php
 namespace wcf\data\moderation\queue;
-use wcf\system\moderation\queue\ModerationQueueActivationManager;
-
 use wcf\system\exception\PermissionDeniedException;
 use wcf\system\exception\UserInputException;
-use wcf\system\moderation\queue\ModerationQueueReportManager;
+use wcf\system\moderation\queue\ModerationQueueActivationManager;
 use wcf\system\WCF;
 use wcf\util\StringUtil;
 

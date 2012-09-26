@@ -16,9 +16,9 @@
 				<h1>{lang}wcf.moderation.filterByType{/lang}</h1>
 				<div class="menuGroupItems">
 					<ul>
-						<li{if $definitionID == 0} class="active"{/if}><a href="{link controller='ModerationList'}pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.type.all{/lang}</a></li>
+						<li{if $definitionID == 0} class="active"{/if}><a href="{link controller='ModerationList'}definitionID=0&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.type.all{/lang}</a></li>
 						{foreach from=$availableDefinitions key=__definitionID item=definitionName}
-							<li{if $definitionID == $__definitionID} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$__definitionID}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.type.{$definitionName}{/lang}</a></li>
+							<li{if $definitionID == $__definitionID} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$__definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.type.{$definitionName}{/lang}</a></li>
 						{/foreach}
 					</ul>
 				</div>
@@ -28,7 +28,22 @@
 			<li class="menuGroup">
 				<h1>{lang}wcf.moderation.filterByUser{/lang}</h1>
 				<div class="menuGroupItems">
-					
+					<ul>
+						<li{if $assignedUserID == -1} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID=-1&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.filterByUser.allEntries{/lang}</a></li>
+						<li{if $assignedUserID == 0} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID=0&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.filterByUser.nobody{/lang}</a></li>
+						<li{if $assignedUserID == $__wcf->getUser()->userID} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$__wcf->getUser()->userID}&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{$__wcf->getUser()->username}</a></li>
+					</ul>
+				</div>
+			</li>
+			
+			{* status *}
+			<li class="menuGroup">
+				<h1>{lang}wcf.moderation.status{/lang}</h1>
+				<div class="menuGroupItems">
+					<ul>
+						<li{if $status == -1} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status=-1&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.status.all{/lang}</a></li>
+						<li{if $status == 2} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status=2&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.status.done{/lang}</a></li>
+					</ul>
 				</div>
 			</li>
 		</ul>
@@ -58,12 +73,12 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th class="columnID{if $sortField == 'id'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=id&sortOrder={if $sortField == 'id' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.global.objectID{/lang}{if $sortField == 'id'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
+					<th class="columnID{if $sortField == 'id'} active{/if}"><a href="{link controller='ModerationList'}definitionID={@$__definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=id&sortOrder={if $sortField == 'id' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.global.objectID{/lang}{if $sortField == 'id'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
 					<th class="columnText columnTitle">{lang}wcf.moderation.title{/lang}</th>
-					<th class="columnDate columnTime{if $sortField == 'time'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=time&sortOrder={if $sortField == 'time' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.time{/lang}{if $sortField == 'time'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
-					<th class="columnText columnUserID{if $sortField == 'username'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=username&sortOrder={if $sortField == 'username' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.username{/lang}{if $sortField == 'username'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
-					<th class="columnDate columnLastChangeTime{if $sortField == 'lastChangeTime'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=lastChangeTime&sortOrder={if $sortField == 'lastChangeTime' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.lastChangeTime{/lang}{if $sortField == 'lastChangeTime'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
-					<th class="columnText columnAssignedUserID{if $sortField == 'assignedUsername'} active{/if}"><a href="{link controller='ModerationList'}{if $definitionID}definitionID={@$definitionID}&{/if}pageNo={@$pageNo}&sortField=assignedUsername&sortOrder={if $sortField == 'assignedUsername' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.assignedUser{/lang}{if $sortField == 'assignedUsername'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
+					<th class="columnDate columnTime{if $sortField == 'time'} active{/if}"><a href="{link controller='ModerationList'}definitionID={@$__definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=time&sortOrder={if $sortField == 'time' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.time{/lang}{if $sortField == 'time'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
+					<th class="columnText columnUserID{if $sortField == 'username'} active{/if}"><a href="{link controller='ModerationList'}definitionID={@$__definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=username&sortOrder={if $sortField == 'username' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.username{/lang}{if $sortField == 'username'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
+					<th class="columnDate columnLastChangeTime{if $sortField == 'lastChangeTime'} active{/if}"><a href="{link controller='ModerationList'}definitionID={@$__definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=lastChangeTime&sortOrder={if $sortField == 'lastChangeTime' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.lastChangeTime{/lang}{if $sortField == 'lastChangeTime'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
+					<th class="columnText columnAssignedUserID{if $sortField == 'assignedUsername'} active{/if}"><a href="{link controller='ModerationList'}definitionID={@$__definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=assignedUsername&sortOrder={if $sortField == 'assignedUsername' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.assignedUser{/lang}{if $sortField == 'assignedUsername'} <img src="{icon}sort{@$sortOrder}{/icon}" alt="" />{/if}</a></th>
 					{if !$definitionID}<th class="columnText columnType">{lang}wcf.moderation.type{/lang}</th>{/if}
 				</tr>
 			</thead>

@@ -13,7 +13,7 @@ use wcf\system\WCF;
  * @subpackage	form
  * @category 	Community Framework
  */
-class ModerationReportForm extends AbstractModerationForm {
+class ModerationActivationForm extends AbstractModerationForm {
 	/**
 	 * @see	wcf\page\IPage::assignVariables()
 	 */

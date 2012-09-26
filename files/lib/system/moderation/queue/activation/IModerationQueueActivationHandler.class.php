@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue\activation;
+use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\moderation\queue\IModerationQueueHandler;
 
