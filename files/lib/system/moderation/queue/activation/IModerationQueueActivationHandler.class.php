@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue\activation;
+use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\moderation\queue\IModerationQueueHandler;
 
 /**
@@ -12,4 +13,12 @@ use wcf\system\moderation\queue\IModerationQueueHandler;
  * @subpackage	system.moderation.queue.activiation
  * @category 	Community Framework
  */
-interface IModerationQueueActivationHandler extends IModerationQueueHandler { }
+interface IModerationQueueActivationHandler extends IModerationQueueHandler {
+	/**
+	 * Returns rendered template for disabled content.
+	 * 
+	 * @param	wcf\data\moderation\queue\ViewableModerationQueue	$queue
+	 * @return	string
+	 */
+	public function getDisabledContent(ViewableModerationQueue $queue);
+}

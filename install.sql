@@ -16,7 +16,7 @@ CREATE TABLE wcf1_moderation_queue (
 	-- additional data, e.g. message if reporting content
 	additionalData TEXT,
 	
-	UNIQUE KEY reportedObject (objectTypeID, objectID, userID)
+	UNIQUE KEY affectedObject (objectTypeID, objectID)
 );
 
 DROP TABLE IF EXISTS wcf1_moderation_queue_to_user;

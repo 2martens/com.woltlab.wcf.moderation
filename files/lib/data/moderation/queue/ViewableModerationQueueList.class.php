@@ -19,9 +19,9 @@ class ViewableModerationQueueList extends ModerationQueueList {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->sqlSelects = "assigned_user.username AS assignedUsername, reporting_user.username AS reportingUsername";
+		$this->sqlSelects = "assigned_user.username AS assignedUsername, user_table.username";
 		$this->sqlJoins = "LEFT JOIN wcf".WCF_N."_user assigned_user ON (assigned_user.userID = moderation_queue.assignedUserID)";
-		$this->sqlJoins .= " LEFT JOIN wcf".WCF_N."_user reporting_user ON (reporting_user.userID = moderation_queue.userID)";
+		$this->sqlJoins .= " LEFT JOIN wcf".WCF_N."_user user_table ON (user_table.userID = moderation_queue.userID)";
 	}
 	
 	/**

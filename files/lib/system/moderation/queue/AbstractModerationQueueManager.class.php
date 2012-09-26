@@ -1,8 +1,7 @@
 <?php
 namespace wcf\system\moderation\queue;
-use wcf\data\moderation\queue\ModerationQueueList;
-
 use wcf\data\moderation\queue\ModerationQueueAction;
+use wcf\data\moderation\queue\ModerationQueueList;
 use wcf\system\SingletonFactory;
 use wcf\system\WCF;
 
@@ -67,19 +66,32 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 	 * @param	array		$additionalData
 	 */
 	protected function addEntry($objectTypeID, $objectID, $containerID = 0, array $additionalData = array()) {
-		$objectAction = new ModerationQueueAction(array(), 'create', array(
-			'data' => array(
-				'objectTypeID' => $objectTypeID,
-				'objectID' => $objectID,
-				'containerID' => $containerID,
-				'userID' => (WCF::getUser()->userID ? WCF::getUser()->userID : null),
-				'time' => TIME_NOW,
-				'additionalData' => serialize($additionalData)
-			)
+		$sql = "SELECT	COUNT(*) AS count
+			FROM	wcf".WCF_N."_moderation_queue
+			WHERE	objectTypeID = ?
+				AND objectID = ?";
+		$statement = WCF::getDB()->prepareStatement($sql);
+		$statement->execute(array(
+			$objectTypeID,
+			$objectID
 		));
-		$objectAction->executeAction();
+		$row = $statement->fetchArray();
 		
-		ModerationQueueManager::getInstance()->resetModerationCount();
+		if ($row['count'] == 0) {
+			$objectAction = new ModerationQueueAction(array(), 'create', array(
+				'data' => array(
+					'objectTypeID' => $objectTypeID,
+					'objectID' => $objectID,
+					'containerID' => $containerID,
+					'userID' => (WCF::getUser()->userID ? WCF::getUser()->userID : null),
+					'time' => TIME_NOW,
+					'additionalData' => serialize($additionalData)
+				)
+			));
+			$objectAction->executeAction();
+			
+			ModerationQueueManager::getInstance()->resetModerationCount();
+		}
 	}
 	
 	/**

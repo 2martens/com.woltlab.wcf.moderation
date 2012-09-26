@@ -1,7 +1,7 @@
 {include file='documentHeader'}
 
 <head>
-	<title>{lang}wcf.moderation.report{/lang} - {PAGE_TITLE|language}</title>
+	<title>{lang}wcf.moderation.activation{/lang} - {PAGE_TITLE|language}</title>
 	
 	{include file='headInclude'}
 	
@@ -9,7 +9,7 @@
 	<script type="text/javascript">
 		//<![CDATA[
 		$(function() {
-			new WCF.Moderation.Report.Management({@$queue->queueID}, '{link controller='ModerationList'}{/link}');
+			new WCF.Moderation.Activation.Management({@$queue->queueID}, '{link controller='ModerationList'}{/link}');
 		});
 		//]]>
 	</script>
@@ -21,7 +21,7 @@
 
 <header class="boxHeadline">
 	<hgroup>
-		<h1>{lang}wcf.moderation.report{/lang}</h1>
+		<h1>{lang}wcf.moderation.activation{/lang}</h1>
 	</hgroup>
 </header>
 
@@ -38,15 +38,11 @@
 
 <form method="post" action="{link controller='ModerationReport' id=$queue->queueID}{/link}" class="container containerPadding marginTop">
 	<fieldset>
-		<legend>{lang}wcf.moderation.report.details{/lang}</legend>
+		<legend>{lang}wcf.moderation.activation.details{/lang}</legend>
 		
 		<dl>
 			<dt>{lang}wcf.global.objectID{/lang}</dt>
 			<dd>{#$queue->queueID}</dd>
-		</dl>
-		<dl>
-			<dt>{lang}wcf.moderation.reportedBy{/lang}</dt>
-			<dd>{if $queue->userID}<a href="{link controller='User' id=$queue->userID}{/link}" class="userLink" data-user-id="{@$queue->userID}">{$queue->reportingUsername}</a>{else}{lang}wcf.user.guest{/lang}{/if} ({@$queue->time|time})</dd>
 		</dl>
 		{if $queue->lastChangeTime}
 			<dl>
@@ -73,10 +69,6 @@
 			</dl>
 		{/if}
 		<dl>
-			<dt>{lang}wcf.moderation.report.reason{/lang}</dt>
-			<dd>{$queue->message}</dd>
-		</dl>
-		<dl>
 			<dt>{lang}wcf.moderation.comment{/lang}</dt>
 			<dd><textarea name="comment" rows="4" cols="40">{$comment}</textarea></dd>
 		</dl>
@@ -87,15 +79,15 @@
 	</fieldset>
 
 	<fieldset>
-		<legend>{lang}wcf.moderation.report.reportedContent{/lang}</legend>
+		<legend>{lang}wcf.moderation.activation.content{/lang}</legend>
 		
 		<div>
-			{@$reportedContent}
+			{@$disabledContent}
 		</div>
 		
 		<div class="formSubmit">
-			<input type="button" value="{lang}wcf.moderation.report.removeContent{/lang}" id="removeContent" />
-			<input type="button" value="{lang}wcf.moderation.report.removeReport{/lang}" id="removeReport" />
+			<input type="button" value="{lang}wcf.moderation.activation.enableContent{/lang}" id="enableContent" />
+			<input type="button" value="{lang}wcf.moderation.activation.removeContent{/lang}" id="removeContent" />
 		</div>
 	</fieldset>
 </form>

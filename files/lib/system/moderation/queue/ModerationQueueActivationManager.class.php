@@ -1,5 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue;
+use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\exception\SystemException;
 use wcf\system\request\LinkHandler;
 
@@ -18,6 +19,16 @@ class ModerationQueueActivationManager extends AbstractModerationQueueManager {
 	 * @see	wcf\system\moderation\queue\AbstractModerationQueueManager::$definitionName
 	 */
 	protected $definitionName = 'com.woltlab.wcf.moderation.activation';
+	
+	/**
+	 * Returns outstanding content.
+	 * 
+	 * @param	wcf\data\moderation\queue\ViewableModerationQueue	$queue
+	 * @return	string
+	 */
+	public function getDisabledContent(ViewableModerationQueue $queue) {
+		return $this->getProcessor(null, $queue->objectTypeID)->getDisabledContent($queue);
+	}
 	
 	/**
 	 * @see	wcf\system\moderation\queue\IModerationQueueManager::getLink()

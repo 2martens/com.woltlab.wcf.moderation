@@ -8,7 +8,7 @@
 		
 		<definition>
 			<name>com.woltlab.wcf.moderation.activation</name>
-			<interfacename>wcf\system\moderation\queue\content\IModerationQueueActivationHandler</interfacename>
+			<interfacename>wcf\system\moderation\queue\activation\IModerationQueueActivationHandler</interfacename>
 		</definition>
 		
 		<definition>

@@ -1,10 +1,10 @@
 <?php
 namespace wcf\form;
-use wcf\system\moderation\queue\ModerationQueueReportManager;
+use wcf\system\moderation\queue\ModerationQueueActivationManager;
 use wcf\system\WCF;
 
 /**
- * Shows the moderation report form.
+ * Shows the moderation activation form.
  * 
  * @author	Alexander Ebert
  * @copyright	2001-2012 WoltLab GmbH
@@ -21,7 +21,7 @@ class ModerationReportForm extends AbstractModerationForm {
 		parent::assignVariables();
 		
 		WCF::getTPL()->assign(array(
-			'reportedContent' => ModerationQueueReportManager::getInstance()->getReportedContent($this->queue)
+			'disabledContent' => ModerationQueueActivationManager::getInstance()->getDisabledContent($this->queue)
 		));
 	}
 }
