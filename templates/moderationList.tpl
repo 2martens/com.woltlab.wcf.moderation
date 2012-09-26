@@ -31,7 +31,7 @@
 					<ul>
 						<li{if $assignedUserID == -1} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID=-1&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.filterByUser.allEntries{/lang}</a></li>
 						<li{if $assignedUserID == 0} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID=0&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.filterByUser.nobody{/lang}</a></li>
-						<li{if $assignedUserID == $__wcf->getUser()->userID} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$__wcf->getUser()->userID}&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{$__wcf->getUser()->username}</a></li>
+						<li{if $assignedUserID == $__wcf->getUser()->userID} class="active"{/if}><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$__wcf->getUser()->userID}&status={@$status}&pageNo={@$pageNo}&sortField={@$sortField}&sortOrder={@$sortOrder}{/link}">{lang}wcf.moderation.filterByUser.myself{/lang}</a></li>
 					</ul>
 				</div>
 			</li>
@@ -54,7 +54,7 @@
 
 <header class="boxHeadline">
 	<hgroup>
-		<h1>{lang}wcf.moderation.headline{/lang}</h1>
+		<h1>{lang}wcf.moderation.moderation{/lang}</h1>
 	</hgroup>
 </header>
 
@@ -93,7 +93,7 @@
 							<td>{if $entry->userID}<a href="{link controller='User' id=$entry->userID}{/link}" class="userLink" data-user-id="{@$entry->userID}">{$entry->username}</a>{else}{lang}wcf.global.guest{/lang}{/if}</td>
 							<td>{if $entry->lastChangeTime}{@$entry->lastChangeTime|time}{/if}</td>
 							<td>{if $entry->assignedUserID}<a href="{link controller='User' id=$entry->assignedUserID}{/link}" class="userLink" data-user-id="{@$entry->assignedUserID}">{$entry->assignedUsername}</a>{/if}</td>
-							{if !$definitionID}<td>{lang}wcf.moderation.type.foo{/lang}</td>{/if}
+							{if !$definitionID}<td>{lang}wcf.moderation.type.{@$definitionNames[$entry->objectTypeID]}{/lang}</td>{/if}
 						</tr>
 					{/foreach}
 				{/content}

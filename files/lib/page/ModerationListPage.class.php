@@ -116,6 +116,7 @@ class ModerationListPage extends SortablePage {
 			'assignedUserID' => $this->assignedUserID,
 			'availableDefinitions' => $this->availableDefinitions,
 			'definitionID' => $this->definitionID,
+			'definitionNames' => ModerationQueueManager::getInstance()->getDefinitionNamesByObjectTypeIDs(),
 			'status' => $this->status
 		));
 	}

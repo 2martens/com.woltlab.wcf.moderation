@@ -301,4 +301,20 @@ class ModerationQueueManager extends SingletonFactory {
 			UserStorageHandler::getInstance()->reset(array($userID), 'outstandingModerationCount', PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
 		}
 	}
+	
+	/**
+	 * Returns a list of object type ids and their parent definition name.
+	 *
+	 * @return	array<string>
+	 */
+	public function getDefinitionNamesByObjectTypeIDs() {
+		$definitionNames = array();
+		foreach ($this->objectTypeNames as $definitionName => $objectTypes) {
+			foreach ($objectTypes as $objectTypeID) {
+				$definitionNames[$objectTypeID] = $definitionName;
+			}
+		}
+	
+		return $definitionNames;
+	}
 }

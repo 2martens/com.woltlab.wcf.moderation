@@ -45,7 +45,7 @@
 			<dd>{#$queue->queueID}</dd>
 		</dl>
 		<dl>
-			<dt>{lang}wcf.moderation.reportedBy{/lang}</dt>
+			<dt>{lang}wcf.moderation.report.reportedBy{/lang}</dt>
 			<dd>{if $queue->userID}<a href="{link controller='User' id=$queue->userID}{/link}" class="userLink" data-user-id="{@$queue->userID}">{$queue->reportingUsername}</a>{else}{lang}wcf.user.guest{/lang}{/if} ({@$queue->time|time})</dd>
 		</dl>
 		{if $queue->lastChangeTime}

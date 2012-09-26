@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/language.xsd" languagecode="de">
+	<category name="wcf.moderation">
+		<item name="wcf.moderation.assignedUser"><![CDATA[Zugewiesener Benutzer]]></item>
+		<item name="wcf.moderation.assignedUser.nobody"><![CDATA[Niemand]]></item>
+		<item name="wcf.moderation.comment"><![CDATA[Kommentar (intern)]]></item>
+		<item name="wcf.moderation.filterByType"><![CDATA[Typ]]></item>
+		<item name="wcf.moderation.filterByUser"><![CDATA[Zugewiesener Benutzer]]></item>
+		<item name="wcf.moderation.filterByUser.allEntries"><![CDATA[Alle Einträge]]></item>
+		<item name="wcf.moderation.filterByUser.myself"><![CDATA[Ich ({$__wcf->getUser()->username})]]></item>
+		<item name="wcf.moderation.filterByUser.nobody"><![CDATA[Niemand]]></item>
+		<item name="wcf.moderation.items"><![CDATA[Ausstehende Elemente]]></item>
+		<item name="wcf.moderation.lastChangeTime"><![CDATA[Letzte Änderung]]></item>
+		<item name="wcf.moderation.moderation"><![CDATA[Moderation]]></item>
+		<item name="wcf.moderation.noItems"><![CDATA[Keine Einträge entsprechen den gewählten Kriterien]]></item>
+		<item name="wcf.moderation.status"><![CDATA[Status]]></item>
+		<item name="wcf.moderation.status.all"><![CDATA[Alle Einträge]]></item>
+		<item name="wcf.moderation.status.done"><![CDATA[Erledigt]]></item>
+		<item name="wcf.moderation.time"><![CDATA[Datum]]></item>
+		<item name="wcf.moderation.title"><![CDATA[Titel]]></item>
+		<item name="wcf.moderation.type"><![CDATA[Typ]]></item>
+		<item name="wcf.moderation.type.all"><![CDATA[Alle Einträge]]></item>
+		<item name="wcf.moderation.type.com.woltlab.wcf.moderation.activation"><![CDATA[Freischaltung]]></item>
+		<item name="wcf.moderation.type.com.woltlab.wcf.moderation.report"><![CDATA[Meldung]]></item>
+		<item name="wcf.moderation.username"><![CDATA[Benutzername]]></item>
+	</category>
+	
+	<category name="wcf.moderation.activation">
+		<item name="wcf.moderation.activation"><![CDATA[Freischaltung]]></item>
+		<item name="wcf.moderation.activation.content"><![CDATA[Freizuschaltender Inhalt]]></item>
+		<item name="wcf.moderation.activation.enableContent"><![CDATA[Inhalt freischalten]]></item>
+		<item name="wcf.moderation.activation.removeContent"><![CDATA[Inhalt löschen]]></item>
+	</category>
+	
+	<category name="wcf.moderation.report">
+		<item name="wcf.moderation.report"><![CDATA[Meldung bearbeiten]]></item>
+		<item name="wcf.moderation.report.alreadyReported"><![CDATA[Dieser Inhalt wurde bereits gemeldet.]]></item>
+		<item name="wcf.moderation.report.details"><![CDATA[Meldung]]></item>
+		<item name="wcf.moderation.report.reason"><![CDATA[Begründung]]></item>
+		<item name="wcf.moderation.report.removeContent"><![CDATA[Gemeldeten Inhalt löschen]]></item>
+		<item name="wcf.moderation.report.removeReport"><![CDATA[Meldung löschen]]></item>
+		<item name="wcf.moderation.report.reportContent"><![CDATA[Inhalt melden]]></item>
+		<item name="wcf.moderation.report.reportedBy"><![CDATA[Gemeldet von]]></item>
+		<item name="wcf.moderation.report.reportedContent"><![CDATA[Gemeldeter Inhalt]]></item>
+	</category>
+</language>
