@@ -1,8 +1,11 @@
 <?php
 namespace wcf\form;
+use wcf\system\request\LinkHandler;
+
 use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ModerationQueueAction;
 use wcf\data\moderation\queue\ViewableModerationQueue;
+use wcf\system\breadcrumb\Breadcrumb;
 use wcf\system\exception\IllegalLinkException;
 use wcf\system\exception\PermissionDeniedException;
 use wcf\system\event\EventHandler;
@@ -102,6 +105,11 @@ abstract class AbstractModerationForm extends AbstractForm {
 			$this->assignedUserID = $this->queue->assignedUserID;
 			$this->comment = $this->queue->comment;
 		}
+		
+		WCF::getBreadcrumbs()->add(new Breadcrumb(
+			WCF::getLanguage()->get('wcf.moderation.moderation'),
+			LinkHandler::getInstance()->getLink('ModerationList')
+		));
 	}
 	
 	/**
@@ -157,6 +165,6 @@ abstract class AbstractModerationForm extends AbstractForm {
 	 * Prepares update of moderation queue item.
 	 */
 	protected function prepareSave() {
-		EventHandler::getInstance()->fireEvent($this, 'prepareSave');
+		EventHandler::getInstance()->fireAction($this, 'prepareSave');
 	}
 }

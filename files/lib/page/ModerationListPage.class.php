@@ -95,7 +95,8 @@ class ModerationListPage extends SortablePage {
 		$this->objectList->getConditionBuilder()->add("moderation_queue.objectTypeID IN (?)", array($objectTypeIDs));
 		
 		// filter by assigned user id
-		if ($this->assignedUserID > -1) $this->objectList->getConditionBuilder()->add("moderation_queue.assignedUserID = ?", array($this->assignedUserID));
+		if ($this->assignedUserID == 0) $this->objectList->getConditionBuilder()->add("moderation_queue.assignedUserID IS NULL");
+		else if ($this->assignedUserID > 0) $this->objectList->getConditionBuilder()->add("moderation_queue.assignedUserID = ?", array($this->assignedUserID));
 		
 		// filter by status
 		if ($this->status == ModerationQueue::STATUS_DONE) {
