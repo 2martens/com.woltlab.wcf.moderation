@@ -85,20 +85,20 @@
 			<input type="submit" value="{lang}wcf.global.button.submit{/lang}" />
 		</div>
 	</fieldset>
-
-	<fieldset>
-		<legend>{lang}wcf.moderation.report.reportedContent{/lang}</legend>
-		
-		<div>
-			{@$reportedContent}
-		</div>
-		
-		<div class="formSubmit">
-			<input type="button" value="{lang}wcf.moderation.report.removeContent{/lang}" id="removeContent" />
-			<input type="button" value="{lang}wcf.moderation.report.removeReport{/lang}" id="removeReport" />
-		</div>
-	</fieldset>
 </form>
+
+<fieldset class="marginTop">
+	<legend>{lang}wcf.moderation.report.reportedContent{/lang}</legend>
+	
+	<div>
+		{@$reportedContent}
+	</div>
+	
+	<div class="formSubmit">
+		<input type="button" value="{lang}wcf.moderation.report.removeContent{/lang}" id="removeContent" />
+		<input type="button" value="{lang}wcf.moderation.report.removeReport{/lang}" id="removeReport" />
+	</div>
+</fieldset>
 
 <div class="contentNavigation">
 	<nav>

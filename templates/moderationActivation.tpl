@@ -77,20 +77,20 @@
 			<input type="submit" value="{lang}wcf.global.button.submit{/lang}" />
 		</div>
 	</fieldset>
-
-	<fieldset>
-		<legend>{lang}wcf.moderation.activation.content{/lang}</legend>
-		
-		<div>
-			{@$disabledContent}
-		</div>
-		
-		<div class="formSubmit">
-			<input type="button" value="{lang}wcf.moderation.activation.enableContent{/lang}" id="enableContent" />
-			<input type="button" value="{lang}wcf.moderation.activation.removeContent{/lang}" id="removeContent" />
-		</div>
-	</fieldset>
 </form>
+
+<fieldset class="marginTop">
+	<legend>{lang}wcf.moderation.activation.content{/lang}</legend>
+	
+	<div>
+		{@$disabledContent}
+	</div>
+	
+	<div class="formSubmit">
+		<input type="button" value="{lang}wcf.moderation.activation.enableContent{/lang}" id="enableContent" />
+		<input type="button" value="{lang}wcf.moderation.activation.removeContent{/lang}" id="removeContent" />
+	</div>
+</fieldset>
 
 <div class="contentNavigation">
 	<nav>
