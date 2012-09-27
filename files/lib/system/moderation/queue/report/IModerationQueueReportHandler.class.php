@@ -16,6 +16,14 @@ use wcf\system\moderation\queue\IModerationQueueHandler;
  */
 interface IModerationQueueReportHandler extends IModerationQueueHandler {
 	/**
+	 * Returns true, if current user can report given content.
+	 * 
+	 * @param	integer		$objectID
+	 * @return	boolean
+	 */
+	public function canReport($objectID);
+	
+	/**
 	 * Returns rendered template for reported content.
 	 * 
 	 * @param	wcf\data\moderation\queue\ViewableModerationQueue	$queue

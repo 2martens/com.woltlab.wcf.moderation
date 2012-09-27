@@ -47,6 +47,17 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 	}
 	
 	/**
+	 * Returns true, if current user can report given content.
+	 * 
+	 * @param	string		$objectType
+	 * @param	integer		$objectID
+	 * @return	boolean
+	 */
+	public function canReport($objectType, $objectID) {
+		return $this->getProcessor($objectType)->canReport($objectID);
+	}
+	
+	/**
 	 * @see	wcf\system\moderation\queue\IModerationQueueManager::getLink()
 	 */
 	public function getLink($queueID) {

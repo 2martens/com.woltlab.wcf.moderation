@@ -89,6 +89,11 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 		if (!ModerationQueueReportManager::getInstance()->isValid($this->parameters['objectType'], $this->parameters['objectID'])) {
 			throw new UserInputException('objectID');
 		}
+		
+		// validate if user may read the content (prevent information disclosure by reporting random ids)
+		if (!ModerationQueueReportManager::getInstance()->canReport($this->parameters['objectType'], $this->parameters['objectID'])) {
+			throw new PermissionDeniedException();
+		}
 	}
 	
 	/**
