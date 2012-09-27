@@ -32,7 +32,12 @@ class ModerationListPage extends SortablePage {
 	/**
 	 * @see	wcf\page\SortablePage::$defaultSortField
 	 */
-	public $defaultSortField = '';
+	public $defaultSortField = 'queueID';
+	
+	/**
+	 * @see	wcf\page\SortablePage::$defaultSortField
+	 */
+	public $defaultSortOrder = 'DESC';
 	
 	/**
 	 * definiton id for filtering
@@ -64,7 +69,7 @@ class ModerationListPage extends SortablePage {
 	/**
 	 * @see	wcf\page\SortablePage::$validSortFields
 	 */
-	public $validSortFields = array('assignedUsername', 'id', 'lastChangeTime', 'reportingUsername', 'time');
+	public $validSortFields = array('assignedUsername', 'lastChangeTime', 'queueID', 'time', 'username');
 	
 	/**
 	 * @see	wcf\page\IPage::readParameters()
