@@ -79,22 +79,21 @@
 	</fieldset>
 </form>
 
-<fieldset class="marginTop">
-	<legend>{lang}wcf.moderation.activation.content{/lang}</legend>
-	
-	<div>
-		{@$disabledContent}
-	</div>
-	
-	<div class="formSubmit">
-		<input type="button" value="{lang}wcf.moderation.activation.enableContent{/lang}" id="enableContent" />
-		<input type="button" value="{lang}wcf.moderation.activation.removeContent{/lang}" id="removeContent" />
-	</div>
-</fieldset>
+<header class="boxHeadline">
+	<hgroup>
+		<h1>{lang}wcf.moderation.activation.content{/lang}</h1>
+	</hgroup>
+</header>
+
+<div class="marginTop">
+	{@$disabledContent}
+</div>
 
 <div class="contentNavigation">
 	<nav>
 		<ul>
+			<li><button id="enableContent">{lang}wcf.moderation.activation.enableContent{/lang}</button></li>
+			<li><button id="removeContent">{lang}wcf.moderation.activation.removeContent{/lang}</button></li>
 			<li><a href="{link controller='ModerationList'}{/link}" title="{lang}wcf.moderation.moderation{/lang}" class="button"><img src="{icon}list{/icon}" alt="" class="icon24" /> <span>{lang}wcf.moderation.moderation{/lang}</span></a></li>
 			{event name='largeButtonsTop'}
 		</ul>

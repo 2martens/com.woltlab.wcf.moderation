@@ -87,22 +87,21 @@
 	</fieldset>
 </form>
 
-<fieldset class="marginTop">
-	<legend>{lang}wcf.moderation.report.reportedContent{/lang}</legend>
-	
-	<div>
-		{@$reportedContent}
-	</div>
-	
-	<div class="formSubmit">
-		<input type="button" value="{lang}wcf.moderation.report.removeContent{/lang}" id="removeContent" />
-		<input type="button" value="{lang}wcf.moderation.report.removeReport{/lang}" id="removeReport" />
-	</div>
-</fieldset>
+<header class="boxHeadline">
+	<hgroup>
+		<h1>{lang}wcf.moderation.report.reportedContent{/lang}</h1>
+	</hgroup>
+</header>
+
+<div class="marginTop">
+	{@$reportedContent}
+</div>
 
 <div class="contentNavigation">
 	<nav>
 		<ul>
+			<li><button id="removeContent">{lang}wcf.moderation.report.removeContent{/lang}</button></li>
+			<li><button id="removeReport">{lang}wcf.moderation.report.removeReport{/lang}</button></li>
 			<li><a href="{link controller='ModerationList'}{/link}" title="{lang}wcf.moderation.moderation{/lang}" class="button"><img src="{icon}list{/icon}" alt="" class="icon24" /> <span>{lang}wcf.moderation.moderation{/lang}</span></a></li>
 			{event name='largeButtonsTop'}
 		</ul>
