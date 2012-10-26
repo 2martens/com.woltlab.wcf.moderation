@@ -97,6 +97,12 @@ class ModerationListPage extends SortablePage {
 		
 		// filter by object type id
 		$objectTypeIDs = ModerationQueueManager::getInstance()->getObjectTypeIDs( ($this->definitionID ? array($this->definitionID) : array_keys($this->availableDefinitions)) );
+		if (empty($objectTypeIDs)) {
+			// no object type ids given? screw that, display nothing
+			$this->objectList->getConditionBuilder()->add("0 = 1");
+			return;
+		}
+		
 		$this->objectList->getConditionBuilder()->add("moderation_queue.objectTypeID IN (?)", array($objectTypeIDs));
 		
 		// filter by assigned user id
