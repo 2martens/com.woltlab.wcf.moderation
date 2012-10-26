@@ -29,7 +29,9 @@
 		<item name="wcf.moderation.activation"><![CDATA[Freischaltung]]></item>
 		<item name="wcf.moderation.activation.content"><![CDATA[Freizuschaltender Inhalt]]></item>
 		<item name="wcf.moderation.activation.enableContent"><![CDATA[Inhalt freischalten]]></item>
+		<item name="wcf.moderation.activation.enableContent.confirmMessage"><![CDATA[Möchten Sie diesen Inhalt wirklich freischalten?]]></item>
 		<item name="wcf.moderation.activation.removeContent"><![CDATA[Inhalt löschen]]></item>
+		<item name="wcf.moderation.activation.removeContent.confirmMessage"><![CDATA[Möchten Sie diesen Inhalt wirklich löschen?]]></item>
 	</category>
 	
 	<category name="wcf.moderation.report">
@@ -38,7 +40,9 @@
 		<item name="wcf.moderation.report.details"><![CDATA[Meldung]]></item>
 		<item name="wcf.moderation.report.reason"><![CDATA[Begründung]]></item>
 		<item name="wcf.moderation.report.removeContent"><![CDATA[Gemeldeten Inhalt löschen]]></item>
+		<item name="wcf.moderation.report.removeContent.confirmMessage"><![CDATA[Möchten Sie den gemeldeten Inhalt wirklich löschen?]]></item>
 		<item name="wcf.moderation.report.removeReport"><![CDATA[Meldung löschen]]></item>
+		<item name="wcf.moderation.report.removeReport.confirmMessage"><![CDATA[Möchten Sie diese Meldung wirklich löschen?]]></item>
 		<item name="wcf.moderation.report.reportContent"><![CDATA[Inhalt melden]]></item>
 		<item name="wcf.moderation.report.reportedBy"><![CDATA[Gemeldet von]]></item>
 		<item name="wcf.moderation.report.reportedContent"><![CDATA[Gemeldeter Inhalt]]></item>

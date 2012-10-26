@@ -27,6 +27,12 @@ WCF.Moderation.Management = Class.extend({
 	_className: '',
 	
 	/**
+	 * language item pattern
+	 * @var	string
+	 */
+	_languageItem: '',
+	
+	/**
 	 * action proxy
 	 * @var	WCF.Action.Proxy
 	 */
@@ -49,8 +55,9 @@ WCF.Moderation.Management = Class.extend({
 	 * 
 	 * @param	integer		queueID
 	 * @param	string		redirectURL
+	 * @param	string		languageItem
 	 */
-	init: function(queueID, redirectURL) {
+	init: function(queueID, redirectURL, languageItem) {
 		if (!this._buttonSelector) {
 			console.debug("[WCF.Moderation.Management] Missing button selector, aborting.");
 			return;
@@ -62,6 +69,7 @@ WCF.Moderation.Management = Class.extend({
 		
 		this._queueID = queueID;
 		this._redirectURL = redirectURL;
+		this._languageItem = languageItem;
 		
 		this._proxy = new WCF.Action.Proxy({
 			success: $.proxy(this._success, this)
@@ -76,14 +84,20 @@ WCF.Moderation.Management = Class.extend({
 	 * @param	object		event
 	 */
 	_click: function(event) {
-		this._proxy.setOption('data', {
-			actionName: $(event.currentTarget).wcfIdentify(),
-			className: this._className,
-			objectIDs: [ this._queueID ]
-		});
-		this._proxy.sendRequest();
+		var $actionName = $(event.currentTarget).wcfIdentify();
 		
-		$(this._buttonSelector).disable();
+		WCF.System.Confirmation.show(WCF.Language.get(this._languageItem.replace(/{actionName}/, $actionName)), $.proxy(function(action) {
+			if (action === 'confirm') {
+				this._proxy.setOption('data', {
+					actionName: $actionName,
+					className: this._className,
+					objectIDs: [ this._queueID ]
+				});
+				this._proxy.sendRequest();
+				
+				$(this._buttonSelector).disable();
+			}
+		}, this));
 	},
 	
 	/**
@@ -120,7 +134,7 @@ WCF.Moderation.Activation.Management = WCF.Moderation.Management.extend({
 		this._buttonSelector = '#enableContent, #removeContent';
 		this._className = 'wcf\\data\\moderation\\queue\\ModerationQueueActivationAction';
 		
-		this._super(queueID, redirectURL);
+		this._super(queueID, redirectURL, 'wcf.moderation.activation.{actionName}.confirmMessage');
 	}
 });
 
@@ -315,6 +329,6 @@ WCF.Moderation.Report.Management = WCF.Moderation.Management.extend({
 		this._buttonSelector = '#removeContent, #removeReport';
 		this._className = 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction';
 		
-		this._super(queueID, redirectURL);
+		this._super(queueID, redirectURL, 'wcf.moderation.report.{actionName}.confirmMessage');
 	}
 });

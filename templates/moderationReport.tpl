@@ -10,6 +10,11 @@
 		//<![CDATA[
 		$(function() {
 			new WCF.Moderation.Report.Management({@$queue->queueID}, '{link controller='ModerationList'}{/link}');
+			
+			WCF.Language.addObject({
+				'wcf.moderation.report.removeContent.confirmMessage': '{lang}wcf.moderation.report.removeContent.confirmMessage{/lang}',
+				'wcf.moderation.report.removeReport.confirmMessage': '{lang}wcf.moderation.report.removeReport.confirmMessage{/lang}'
+			});
 		});
 		//]]>
 	</script>
