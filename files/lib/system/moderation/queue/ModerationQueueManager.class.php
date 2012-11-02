@@ -225,7 +225,7 @@ class ModerationQueueManager extends SingletonFactory {
 			$queueList->sqlLimit = 0;
 			$queueList->readObjects();
 			
-			if (count($queueList) > 0) {
+			if (count($queueList)) {
 				$queues = array();
 				foreach ($queueList as $queue) {
 					if (!isset($queues[$queue->objectTypeID])) {
