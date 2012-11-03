@@ -14,7 +14,7 @@ use wcf\util\StringUtil;
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	data.moderation.queue
- * @category 	Community Framework
+ * @category	Community Framework
  */
 class ModerationQueueActivationAction extends ModerationQueueAction {
 	/**

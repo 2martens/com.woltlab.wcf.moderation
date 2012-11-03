@@ -11,7 +11,7 @@ use wcf\system\moderation\queue\ModerationQueueManager;
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	data.moderation.queue
- * @category 	Community Framework
+ * @category	Community Framework
  */
 class ModerationQueueEditor extends DatabaseObjectEditor {
 	/**

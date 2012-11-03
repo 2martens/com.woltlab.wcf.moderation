@@ -12,7 +12,7 @@ use wcf\system\moderation\queue\IModerationQueueHandler;
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	system.moderation.queue.activiation
- * @category 	Community Framework
+ * @category	Community Framework
  */
 interface IModerationQueueActivationHandler extends IModerationQueueHandler {
 	/**
