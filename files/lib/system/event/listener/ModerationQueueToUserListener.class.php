@@ -7,16 +7,16 @@ use wcf\system\WCF;
 /**
  * Resets computed assignments for moderation queues.
  * 
- * @author 	Alexander Ebert
+ * @author	Alexander Ebert
  * @copyright	2001-2012 WoltLab GmbH
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	system.event.listener
- * @category 	Community Framework
+ * @category	Community Framework
  */
 class ModerationQueueToUserListener implements IEventListener {
 	/**
-	 * @see wcf\system\event\IEventListener::execute()
+	 * @see	wcf\system\event\IEventListener::execute()
 	 */
 	public function execute($eventObj, $className, $eventName) {
 		// remove assignments

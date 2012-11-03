@@ -20,7 +20,7 @@ use wcf\util\StringUtil;
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	form
- * @category 	Community Framework
+ * @category	Community Framework
  */
 abstract class AbstractModerationForm extends AbstractForm {
 	/**
