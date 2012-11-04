@@ -38,7 +38,8 @@
 		<item name="wcf.moderation.report"><![CDATA[Meldung bearbeiten]]></item>
 		<item name="wcf.moderation.report.alreadyReported"><![CDATA[Dieser Inhalt wurde bereits gemeldet.]]></item>
 		<item name="wcf.moderation.report.details"><![CDATA[Meldung]]></item>
-		<item name="wcf.moderation.report.reason"><![CDATA[Begründung]]></item>
+		<item name="wcf.moderation.report.reason"><![CDATA[Grund der Meldung]]></item>
+		<item name="wcf.moderation.report.reason.description"><![CDATA[Diese Funktion ist ausschließlich zu verwenden bei: Spam, Werbung und anderen problematischen (rassistischen, gewaltverherrlichenden, agressiven, beleidigenden oder sexistischen) Inhalten.]]></item>
 		<item name="wcf.moderation.report.removeContent"><![CDATA[Gemeldeten Inhalt löschen]]></item>
 		<item name="wcf.moderation.report.removeContent.confirmMessage"><![CDATA[Möchten Sie den gemeldeten Inhalt wirklich löschen?]]></item>
 		<item name="wcf.moderation.report.removeReport"><![CDATA[Meldung löschen]]></item>

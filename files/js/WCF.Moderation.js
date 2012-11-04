@@ -301,18 +301,21 @@ WCF.Moderation.Report.Content = Class.extend({
 	 */
 	_submit: function() {
 		var $text = this._dialog.find('.jsReportMessage').val();
-		if ($text != '') {
-			this._proxy.setOption('data', {
-				actionName: 'report',
-				className: 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction',
-				parameters: {
-					message: $text,
-					objectID: this._objectID,
-					objectType: this._objectType
-				}
-			});
-			this._proxy.sendRequest();
+		if ($text == '') {
+			this._dialog.find('fieldset > dl').addClass('formError');
+			return;
 		}
+		
+		this._proxy.setOption('data', {
+			actionName: 'report',
+			className: 'wcf\\data\\moderation\\queue\\ModerationQueueReportAction',
+			parameters: {
+				message: $text,
+				objectID: this._objectID,
+				objectType: this._objectType
+			}
+		});
+		this._proxy.sendRequest();
 	}
 });
 
