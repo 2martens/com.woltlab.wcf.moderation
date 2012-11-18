@@ -34,14 +34,14 @@ class ModerationQueue extends DatabaseObject {
 	 */
 	public function __get($name) {
 		$value = parent::__get($name);
-	
+		
 		// treat additional data as data variables if it is an array
 		if ($value === null) {
 			if (is_array($this->data['additionalData']) && isset($this->data['additionalData'][$name])) {
 				$value = $this->data['additionalData'][$name];
 			}
 		}
-	
+		
 		return $value;
 	}
 	
@@ -50,7 +50,7 @@ class ModerationQueue extends DatabaseObject {
 	 */
 	protected function handleData($data) {
 		parent::handleData($data);
-	
+		
 		$this->data['additionalData'] = @unserialize($this->data['additionalData']);
 		if (!is_array($this->data['additionalData'])) {
 			$this->data['additionalData'] = array();
@@ -73,6 +73,7 @@ class ModerationQueue extends DatabaseObject {
 			WCF::getUser()->userID
 		));
 		$row = $statement->fetchArray();
+		
 		return ($row !== false && $row['isAffected']);
 	}
 }

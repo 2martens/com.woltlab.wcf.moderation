@@ -1,6 +1,5 @@
 <?php
 namespace wcf\system\moderation\queue;
-use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\exception\SystemException;
 use wcf\system\request\LinkHandler;
@@ -24,7 +23,7 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 	
 	/**
 	 * Returns true, if given item was already reported.
-	 *
+	 * 
 	 * @param	string		$objectType
 	 * @param	integer		$objectID
 	 * @return	boolean
@@ -76,7 +75,7 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 	
 	/**
 	 * Returns the reported object.
-	 *
+	 * 
 	 * @param	string		$objectType
 	 * @param	integer		$objectID
 	 * @return	wcf\data\IUserContent
@@ -87,7 +86,7 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 	
 	/**
 	 * Adds a report for specified content.
-	 *
+	 * 
 	 * @param	string		$objectType
 	 * @param	integer		$objectID
 	 * @param	string		$message

@@ -122,7 +122,7 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 		if (empty($this->parameters['message'])) {
 			throw new UserInputException('message');
 		}
-	
+		
 		$this->validatePrepareReport();
 	}
 	
@@ -139,7 +139,7 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 				$this->parameters['message']
 			);
 		}
-	
+		
 		return array(
 			'reported' => 1
 		);

@@ -4,7 +4,6 @@ use wcf\data\moderation\queue\ModerationQueue;
 use wcf\system\exception\IllegalLinkException;
 use wcf\system\moderation\queue\ModerationQueueManager;
 use wcf\system\WCF;
-use wcf\util\StringUtil;
 
 /**
  * List of moderation queue entries.

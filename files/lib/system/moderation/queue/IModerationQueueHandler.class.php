@@ -46,7 +46,7 @@ interface IModerationQueueHandler {
 	/**
 	 * Removes affected content. It is up to the processing class to either
 	 * soft-delete the content or remove it permanently.
-	 *
+	 * 
 	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
 	 * @param	string						$message
 	 */

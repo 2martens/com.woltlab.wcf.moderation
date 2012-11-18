@@ -2,11 +2,8 @@
 namespace wcf\data\moderation\queue;
 use wcf\data\AbstractDatabaseObjectAction;
 use wcf\system\database\util\PreparedStatementConditionBuilder;
-use wcf\system\exception\IllegalLinkException;
-use wcf\system\exception\UserInputException;
 use wcf\system\moderation\queue\ModerationQueueManager;
 use wcf\system\WCF;
-use wcf\util\StringUtil;
 
 /**
  * Executes moderation queue-related actions.
