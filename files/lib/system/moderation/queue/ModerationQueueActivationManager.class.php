@@ -49,7 +49,7 @@ class ModerationQueueActivationManager extends AbstractModerationQueueManager {
 	
 	/**
 	 * Adds an entry for moderated content.
-	 *
+	 * 
 	 * @param	string		$objectType
 	 * @param	integer		$objectID
 	 * @param	array		$additionalData

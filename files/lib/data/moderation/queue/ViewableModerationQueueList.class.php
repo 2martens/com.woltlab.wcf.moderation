@@ -66,7 +66,7 @@ class ViewableModerationQueueList extends ModerationQueueList {
 	
 	/**
 	 * Returns the name of the database table.
-	 *
+	 * 
 	 * @return	string
 	 */
 	public function getDatabaseTableName() {
@@ -75,7 +75,7 @@ class ViewableModerationQueueList extends ModerationQueueList {
 	
 	/**
 	 * Returns the name of the database table alias.
-	 *
+	 * 
 	 * @return	string
 	 */
 	public function getDatabaseTableAlias() {

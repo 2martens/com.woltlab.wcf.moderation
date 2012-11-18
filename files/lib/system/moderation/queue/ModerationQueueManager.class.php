@@ -1,7 +1,6 @@
 <?php
 namespace wcf\system\moderation\queue;
 use wcf\data\moderation\queue\ModerationQueue;
-use wcf\data\moderation\queue\ModerationQueueAction;
 use wcf\data\moderation\queue\ModerationQueueList;
 use wcf\data\object\type\ObjectTypeCache;
 use wcf\system\exception\SystemException;
@@ -304,7 +303,7 @@ class ModerationQueueManager extends SingletonFactory {
 	
 	/**
 	 * Returns a list of object type ids and their parent definition name.
-	 *
+	 * 
 	 * @return	array<string>
 	 */
 	public function getDefinitionNamesByObjectTypeIDs() {

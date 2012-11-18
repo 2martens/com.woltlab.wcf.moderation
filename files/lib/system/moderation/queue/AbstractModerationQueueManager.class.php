@@ -67,7 +67,7 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 	
 	/**
 	 * Adds an entry to moderation queue.
-	 *
+	 * 
 	 * @param	integer		$objectTypeID
 	 * @param	integer		$objectID
 	 * @param	integer		$containerID

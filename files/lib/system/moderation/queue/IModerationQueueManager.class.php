@@ -40,7 +40,7 @@ interface IModerationQueueManager {
 	
 	/**
 	 * Returns object type id for given object type.
-	 *
+	 * 
 	 * @param	string		$objectType
 	 * @return	integer
 	 */
@@ -64,9 +64,9 @@ interface IModerationQueueManager {
 	public function populate($objectTypeID, array $objects);
 	
 	/**
-	 * Removes affected content. It is up to the processing object to
-	 * use a soft-delete or remove the content permanently.
-	 *
+	 * Removes affected content. It is up to the processing object to use a
+	 * soft-delete or remove the content permanently.
+	 * 
 	 * @param	wcf\data\moderation\queue\ModerationQueue	$queue
 	 * @param	string						$message
 	 */
