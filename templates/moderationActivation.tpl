@@ -41,7 +41,7 @@
 	</nav>
 </div>
 
-<form method="post" action="{link controller='ModerationReport' id=$queue->queueID}{/link}" class="container containerPadding marginTop">
+<form method="post" action="{link controller='ModerationActivation' id=$queue->queueID}{/link}" class="container containerPadding marginTop">
 	<fieldset>
 		<legend>{lang}wcf.moderation.activation.details{/lang}</legend>
 		
