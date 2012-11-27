@@ -1,5 +1,6 @@
 <?php
 namespace wcf\data\moderation\queue;
+use wcf\data\user\UserProfile;
 use wcf\data\DatabaseObjectDecorator;
 use wcf\data\IUserContent;
 use wcf\system\moderation\queue\ModerationQueueManager;
@@ -25,6 +26,12 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 	 * @var	wcf\data\IUserContent
 	 */
 	protected $affectedObject = null;
+	
+	/**
+	 * user profile object
+	 * @var	wcf\data\user\UserProfile
+	 */
+	protected $userProfile = null;
 	
 	/**
 	 * Sets link for viewing/editing.
@@ -60,6 +67,30 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 	 */
 	public function getAffectedObject() {
 		return $this->affectedObject;
+	}
+	
+	/**
+	 * Sets associated user profile object.
+	 * 
+	 * @param	wcf\data\user\UserProfile	$userProfile
+	 */
+	public function setUserProfile(UserProfile $userProfile) {
+		if ($this->affectedObject !== null && ($userProfile->userID == $this->affectedObject->getUserID())) {
+			$this->userProfile = $userProfile;
+		}
+	}
+	
+	/**
+	 * Returns associated user profile object.
+	 * 
+	 * @return	wcf\data\user\UserProfile
+	 */
+	public function getUserProfile() {
+		if ($this->affectedObject !== null && $this->userProfile === null) {
+			$this->userProfile = UserProfile::getUserProfile($this->affectedObject->getUserID());
+		}
+		
+		return $this->userProfile;
 	}
 	
 	/**

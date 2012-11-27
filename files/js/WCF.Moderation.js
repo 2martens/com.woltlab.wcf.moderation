@@ -335,3 +335,43 @@ WCF.Moderation.Report.Management = WCF.Moderation.Management.extend({
 		this._super(queueID, redirectURL, 'wcf.moderation.report.{actionName}.confirmMessage');
 	}
 });
+
+/**
+ * Provides a dropdown for user panel.
+ * 
+ * @see	WCF.UserPanel
+ */
+WCF.Moderation.UserPanel = WCF.UserPanel.extend({
+	/**
+	 * link to show all outstanding queues
+	 * @var	string
+	 */
+	_showAllLink: '',
+	
+	/**
+	 * @see	WCF.UserPanel.init()
+	 */
+	init: function(showAllLink) {
+		this._showAllLink = showAllLink;
+		
+		this._super('outstandingModeration');
+	},
+	
+	/**
+	 * @see	WCF.UserPanel._addDefaultItems()
+	 */
+	_addDefaultItems: function(dropdownMenu) {
+		this._addDivider(dropdownMenu);
+		$('<li><a href="' + this._showAllLink + '">' + WCF.Language.get('wcf.moderation.showAll') + '</a></li>').appendTo(dropdownMenu);
+	},
+	
+	/**
+	 * @see	WCF.UserPanel._getParameters()
+	 */
+	_getParameters: function() {
+		return {
+			actionName: 'getOutstandingQueues',
+			className: 'wcf\\data\\moderation\\queue\\ModerationQueueAction'
+		};
+	}
+});

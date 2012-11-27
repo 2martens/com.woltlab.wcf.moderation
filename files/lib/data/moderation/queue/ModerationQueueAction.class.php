@@ -57,4 +57,34 @@ class ModerationQueueAction extends AbstractDatabaseObjectAction {
 		// reset number of active moderation queue items
 		ModerationQueueManager::getInstance()->resetModerationCount();
 	}
+	
+	/**
+	 * Validates parameters to fetch a list of outstanding queues.
+	 */
+	public function validateGetOutstandingQueues() {
+		WCF::getSession()->checkPermissions(array('mod.general.canUseModeration'));
+	}
+	
+	/**
+	 * Returns a list of outstanding queues.
+	 * 
+	 * @return	array<string>
+	 */
+	public function getOutstandingQueues() {
+		$objectTypeIDs = ModerationQueueManager::getInstance()->getObjectTypeIDs(array_keys(ModerationQueueManager::getInstance()->getDefinitions()));
+		
+		$queueList = new ViewableModerationQueueList();
+		$queueList->getConditionBuilder()->add("moderation_queue.objectTypeID IN (?)", array($objectTypeIDs));
+		$queueList->getConditionBuilder()->add("moderation_queue.status IN (?)", array(array(ModerationQueue::STATUS_OUTSTANDING)));
+		$queueList->loadUserProfiles = true;
+		$queueList->readObjects();
+		
+		WCF::getTPL()->assign(array(
+			'queues' => $queueList
+		));
+		
+		return array(
+			'template' => WCF::getTPL()->fetch('moderationQueueList')
+		);
+	}
 }

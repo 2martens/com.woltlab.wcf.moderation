@@ -1,5 +1,6 @@
 <?php
 namespace wcf\data\moderation\queue;
+use wcf\data\user\UserProfile;
 use wcf\system\moderation\queue\ModerationQueueManager;
 use wcf\system\WCF;
 
@@ -18,6 +19,12 @@ use wcf\system\WCF;
  * @category	Community Framework
  */
 class ViewableModerationQueueList extends ModerationQueueList {
+	/**
+	 * true, if objects should be populated with associated user profiles
+	 * @var	boolean
+	 */
+	public $loadUserProfiles = false;
+	
 	/**
 	 * @see	wcf\data\DatabaseObjectList::$useQualifiedShorthand
 	 */
@@ -60,6 +67,20 @@ class ViewableModerationQueueList extends ModerationQueueList {
 			
 			foreach ($objects as $objectTypeID => $queueItems) {
 				ModerationQueueManager::getInstance()->populate($objectTypeID, $queueItems);
+			}
+			
+			if ($this->loadUserProfiles) {
+				$userIDs = array();
+				foreach ($this->objects as $object) {
+					$userIDs[] = $object->getAffectedObject()->getUserID();
+				}
+				
+				$userProfiles = UserProfile::getUserProfiles($userIDs);
+				foreach ($this->objects as $object) {
+					if (isset($userProfiles[$object->getAffectedObject()->getUserID()])) {
+						$object->setUserProfile($userProfiles[$object->getAffectedObject()->getUserID()]);
+					}
+				}
 			}
 		}
 	}
