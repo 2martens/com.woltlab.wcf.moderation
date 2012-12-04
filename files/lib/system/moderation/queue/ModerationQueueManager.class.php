@@ -3,8 +3,8 @@ namespace wcf\system\moderation\queue;
 use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ModerationQueueList;
 use wcf\data\object\type\ObjectTypeCache;
+use wcf\data\package\PackageCache;
 use wcf\system\exception\SystemException;
-use wcf\system\package\PackageDependencyHandler;
 use wcf\system\user\storage\UserStorageHandler;
 use wcf\system\SingletonFactory;
 use wcf\system\WCF;
@@ -259,7 +259,7 @@ class ModerationQueueManager extends SingletonFactory {
 			$count = $row['count'];
 			
 			// update storage data
-			UserStorageHandler::getInstance()->update(WCF::getUser()->userID, 'outstandingModerationCount', $count, PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+			UserStorageHandler::getInstance()->update(WCF::getUser()->userID, 'outstandingModerationCount', $count);
 		}
 		
 		return $count;
@@ -294,10 +294,10 @@ class ModerationQueueManager extends SingletonFactory {
 	 */
 	public function resetModerationCount($userID = null) {
 		if ($userID === null) {
-			UserStorageHandler::getInstance()->resetAll('outstandingModerationCount', PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+			UserStorageHandler::getInstance()->resetAll('outstandingModerationCount');
 		}
 		else {
-			UserStorageHandler::getInstance()->reset(array($userID), 'outstandingModerationCount', PackageDependencyHandler::getInstance()->getPackageID('com.woltlab.wcf.moderation'));
+			UserStorageHandler::getInstance()->reset(array($userID), 'outstandingModerationCount');
 		}
 	}
 	
