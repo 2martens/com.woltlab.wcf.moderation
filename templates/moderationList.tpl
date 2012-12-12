@@ -64,7 +64,7 @@
 </div>
 
 {hascontent}
-	<div class="marginTop tabularBox tabularBoxTitle shadow">
+	<div class="marginTop tabularBox tabularBoxTitle">
 		<hgroup>
 			<h1>{lang}wcf.moderation.items{/lang} <span class="badge badgeInverse">{#$items}</span></h1>
 		</hgroup>
