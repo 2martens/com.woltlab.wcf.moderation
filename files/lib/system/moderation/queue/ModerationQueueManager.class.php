@@ -1,6 +1,7 @@
 <?php
 namespace wcf\system\moderation\queue;
 use wcf\data\moderation\queue\ModerationQueue;
+use wcf\data\moderation\queue\ModerationQueueAction;
 use wcf\data\moderation\queue\ModerationQueueList;
 use wcf\data\object\type\ObjectTypeCache;
 use wcf\data\package\PackageCache;
@@ -285,6 +286,18 @@ class ModerationQueueManager extends SingletonFactory {
 			));
 		}
 		WCF::getDB()->commitTransaction();
+	}
+	
+	/**
+	 * Removes a list of orphaned queue ids.
+	 * 
+	 * @param	array<integer>		$queueIDs
+	 */
+	public function removeOrphans(array $queueIDs) {
+		$queueAction = new ModerationQueueAction($queueIDs, 'markAsDone');
+		$queueAction->executeAction();
+		
+		$this->resetModerationCount();
 	}
 	
 	/**

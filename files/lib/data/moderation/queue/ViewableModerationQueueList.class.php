@@ -12,7 +12,7 @@ use wcf\system\WCF;
  *	    would not work (MySQL is retarded).
  * 
  * @author	Alexander Ebert
- * @copyright	2001-2012 WoltLab GmbH
+ * @copyright	2001-2013 WoltLab GmbH
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	data.moderation.queue
@@ -67,6 +67,22 @@ class ViewableModerationQueueList extends ModerationQueueList {
 			
 			foreach ($objects as $objectTypeID => $queueItems) {
 				ModerationQueueManager::getInstance()->populate($objectTypeID, $queueItems);
+			}
+			
+			// check for non-existant items
+			$queueIDs = array();
+			foreach ($this->objects as $index => $object) {
+				if ($object->isOrphaned()) {
+					$queueIDs[] = $object->queueID;
+					unset($this->objects[$index]);
+				}
+			}
+			
+			// remove orphaned queues
+			if (!empty($queueIDs)) {
+				$this->indexToObject = array_keys($this->objects);
+				
+				ModerationQueueManager::getInstance()->removeOrphans($queueIDs);
 			}
 			
 			if ($this->loadUserProfiles) {

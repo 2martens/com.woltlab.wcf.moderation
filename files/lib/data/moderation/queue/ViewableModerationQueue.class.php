@@ -9,7 +9,7 @@ use wcf\system\moderation\queue\ModerationQueueManager;
  * Represents a viewable moderation queue entry.
  * 
  * @author	Alexander Ebert
- * @copyright	2001-2012 WoltLab GmbH
+ * @copyright	2001-2013 WoltLab GmbH
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	data.moderation.queue
@@ -26,6 +26,12 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 	 * @var	wcf\data\IUserContent
 	 */
 	protected $affectedObject = null;
+	
+	/**
+	 * true, if associated object was deleted
+	 * @var	boolean
+	 */
+	protected $isOrphaned = false;
 	
 	/**
 	 * user profile object
@@ -91,6 +97,22 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 		}
 		
 		return $this->userProfile;
+	}
+	
+	/**
+	 * Returns true, if associated object was removed.
+	 * 
+	 * @return	boolean
+	 */
+	public function isOrphaned() {
+		return $this->isOrphaned;
+	}
+	
+	/**
+	 * Marks associated objects as removed.
+	 */
+	public function setIsOrphaned() {
+		$this->isOrphaned = true;
 	}
 	
 	/**
