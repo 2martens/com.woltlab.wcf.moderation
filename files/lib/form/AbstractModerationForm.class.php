@@ -4,9 +4,9 @@ use wcf\data\moderation\queue\ModerationQueue;
 use wcf\data\moderation\queue\ModerationQueueAction;
 use wcf\data\moderation\queue\ViewableModerationQueue;
 use wcf\system\breadcrumb\Breadcrumb;
+use wcf\system\event\EventHandler;
 use wcf\system\exception\IllegalLinkException;
 use wcf\system\exception\PermissionDeniedException;
-use wcf\system\event\EventHandler;
 use wcf\system\request\LinkHandler;
 use wcf\system\WCF;
 use wcf\util\StringUtil;
@@ -15,7 +15,7 @@ use wcf\util\StringUtil;
  * Provides an abstract form for moderation queue processing.
  * 
  * @author	Alexander Ebert
- * @copyright	2001-2012 WoltLab GmbH
+ * @copyright	2001-2013 WoltLab GmbH
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	form
