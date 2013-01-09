@@ -75,7 +75,7 @@ class ModerationQueueAction extends AbstractDatabaseObjectAction {
 		
 		$queueList = new ViewableModerationQueueList();
 		$queueList->getConditionBuilder()->add("moderation_queue.objectTypeID IN (?)", array($objectTypeIDs));
-		$queueList->getConditionBuilder()->add("moderation_queue.status IN (?)", array(array(ModerationQueue::STATUS_OUTSTANDING)));
+		$queueList->getConditionBuilder()->add("moderation_queue.status <> ?", array(ModerationQueue::STATUS_DONE));
 		$queueList->loadUserProfiles = true;
 		$queueList->readObjects();
 		
