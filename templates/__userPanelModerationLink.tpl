@@ -1,8 +1,8 @@
 {if $__wcf->user->userID && $__wcf->session->getPermission('mod.general.canUseModeration')}
-	<li id="outstandingModeration" data-count="{#$__wcf->getModerationQueueManager()->getOutstandingModerationCount()}" data-title="{lang}wcf.moderation.moderation{/lang}">
-		<a class="jsTooltip" href="{link controller='ModerationList'}{/link}" title="{lang}wcf.moderation.moderation{/lang}">
+	<li id="outstandingModeration" data-count="{#$__wcf->getModerationQueueManager()->getOutstandingModerationCount()}">
+		<a href="{link controller='ModerationList'}{/link}">
 			<img src="{icon}warningInverse{/icon}" alt="" class="icon24" />
-			<span class="invisible">{lang}wcf.moderation.moderation{/lang}</span>
+			<span>{lang}wcf.moderation.moderation{/lang}</span>
 			{if $__wcf->getModerationQueueManager()->getOutstandingModerationCount()}<span class="badge badgeInverse">{#$__wcf->getModerationQueueManager()->getOutstandingModerationCount()}</span>{/if}
 		</a>
 		<script type="text/javascript" src="{@$__wcf->getPath()}js/WCF.Moderation.js"></script>
