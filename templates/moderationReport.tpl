@@ -79,11 +79,11 @@
 		{/if}
 		<dl>
 			<dt>{lang}wcf.moderation.report.reason{/lang}</dt>
-			<dd>{$queue->message}</dd>
+			<dd>{@$queue->getFormattedMessage()}</dd>
 		</dl>
 		<dl>
-			<dt>{lang}wcf.moderation.comment{/lang}</dt>
-			<dd><textarea name="comment" rows="4" cols="40">{$comment}</textarea></dd>
+			<dt><label for="comment">{lang}wcf.moderation.comment{/lang}</label></dt>
+			<dd><textarea id="comment" name="comment" rows="4" cols="40">{$comment}</textarea></dd>
 		</dl>
 		
 		<div class="formSubmit">

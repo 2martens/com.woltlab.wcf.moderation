@@ -137,4 +137,13 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 		
 		return (isset($queues[$queueID]) ? $queues[$queueID] : null);
 	}
+	
+	/**
+	 * Returns formatted message text.
+	 * 
+	 * @return	string
+	 */
+	public function getFormattedMessage() {
+		return nl2br(htmlspecialchars($this->message));
+	}
 }
