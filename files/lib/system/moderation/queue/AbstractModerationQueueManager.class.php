@@ -112,7 +112,6 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 		$queueList = new ModerationQueueList();
 		$queueList->getConditionBuilder()->add("moderation_queue.objectTypeID = ?", array($objectTypeID));
 		$queueList->getConditionBuilder()->add("moderation_queue.objectID IN (?)", array($objectIDs));
-		$queueList->sqlLimit = 0;
 		$queueList->readObjects();
 		
 		if (count($queueList)) {
