@@ -1,7 +1,7 @@
 {if $__wcf->user->userID && $__wcf->session->getPermission('mod.general.canUseModeration')}
 	<li id="outstandingModeration" data-count="{#$__wcf->getModerationQueueManager()->getOutstandingModerationCount()}">
 		<a href="{link controller='ModerationList'}{/link}">
-			<img src="{icon}warningInverse{/icon}" alt="" class="icon24" />
+			<span class="icon icon16 icon-warning-sign"></span>
 			<span>{lang}wcf.moderation.moderation{/lang}</span>
 			{if $__wcf->getModerationQueueManager()->getOutstandingModerationCount()}<span class="badge badgeInverse">{#$__wcf->getModerationQueueManager()->getOutstandingModerationCount()}</span>{/if}
 		</a>
