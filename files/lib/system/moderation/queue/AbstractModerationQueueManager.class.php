@@ -91,7 +91,7 @@ abstract class AbstractModerationQueueManager extends SingletonFactory implement
 					'objectTypeID' => $objectTypeID,
 					'objectID' => $objectID,
 					'containerID' => $containerID,
-					'userID' => (WCF::getUser()->userID ? WCF::getUser()->userID : null),
+					'userID' => (WCF::getUser()->userID ?: null),
 					'time' => TIME_NOW,
 					'additionalData' => serialize($additionalData)
 				)

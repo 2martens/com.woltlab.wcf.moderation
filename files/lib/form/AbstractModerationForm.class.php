@@ -131,7 +131,7 @@ abstract class AbstractModerationForm extends AbstractForm {
 		parent::save();
 		
 		$this->data = array(
-			'assignedUserID' => ($this->assignedUserID ? $this->assignedUserID : null),
+			'assignedUserID' => ($this->assignedUserID ?: null),
 			'comment' => $this->comment
 		);
 		if ($this->assignedUserID) {
