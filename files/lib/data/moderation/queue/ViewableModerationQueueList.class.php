@@ -9,7 +9,7 @@ use wcf\system\WCF;
  * 
  * WARNING: This database object list uses the moderation_queue_to_user table as primary
  * 	    table and uses a full join for moderation_queue, otherwise the LEFT JOIN
- *	    would not work (MySQL is retarded).
+ * 	    would not work (MySQL is retarded).
  * 
  * @author	Alexander Ebert
  * @copyright	2001-2013 WoltLab GmbH
