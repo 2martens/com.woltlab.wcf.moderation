@@ -100,7 +100,7 @@ class ViewableModerationQueue extends DatabaseObjectDecorator {
 	}
 	
 	/**
-	 * Returns true, if associated object was removed.
+	 * Returns true if associated object was removed.
 	 * 
 	 * @return	boolean
 	 */

@@ -22,7 +22,7 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 	protected $definitionName = 'com.woltlab.wcf.moderation.report';
 	
 	/**
-	 * Returns true, if given item was already reported.
+	 * Returns true if given item was already reported.
 	 * 
 	 * @param	string		$objectType
 	 * @param	integer		$objectID
@@ -46,7 +46,7 @@ class ModerationQueueReportManager extends AbstractModerationQueueManager {
 	}
 	
 	/**
-	 * Returns true, if current user can report given content.
+	 * Returns true if current user can report given content.
 	 * 
 	 * @param	string		$objectType
 	 * @param	integer		$objectID

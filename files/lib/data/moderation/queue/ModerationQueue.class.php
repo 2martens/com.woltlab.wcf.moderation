@@ -58,7 +58,7 @@ class ModerationQueue extends DatabaseObject {
 	}
 	
 	/**
-	 * Returns true, if current user can edit this moderation queue.
+	 * Returns true if current user can edit this moderation queue.
 	 * 
 	 * @return	boolean
 	 */

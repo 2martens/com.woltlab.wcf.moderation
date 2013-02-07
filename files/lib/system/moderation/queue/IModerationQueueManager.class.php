@@ -22,7 +22,7 @@ interface IModerationQueueManager {
 	public function assignQueues($objectTypeID, array $queues);
 	
 	/**
-	 * Returns true, if given object type is valid, optionally checking object id.
+	 * Returns true if given object type is valid, optionally checking object id.
 	 * 
 	 * @param	string		$objectType
 	 * @param	integer		$objectID

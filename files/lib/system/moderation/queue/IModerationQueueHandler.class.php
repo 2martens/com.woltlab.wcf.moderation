@@ -29,7 +29,7 @@ interface IModerationQueueHandler {
 	public function getContainerID($objectID);
 	
 	/**
-	 * Returns true, if given object id is valid.
+	 * Returns true if given object id is valid.
 	 * 
 	 * @param	integer		$objectID
 	 * @return	boolean

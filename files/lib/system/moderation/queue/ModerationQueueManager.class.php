@@ -74,7 +74,7 @@ class ModerationQueueManager extends SingletonFactory {
 	}
 	
 	/**
-	 * Returns true, if the given combination of definition and object type is valid.
+	 * Returns true if the given combination of definition and object type is valid.
 	 * 
 	 * @param	string		$definitionName
 	 * @param	string		$objectType

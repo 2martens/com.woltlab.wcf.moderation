@@ -15,7 +15,7 @@ use wcf\system\moderation\queue\IModerationQueueHandler;
  */
 interface IModerationQueueReportHandler extends IModerationQueueHandler {
 	/**
-	 * Returns true, if current user can report given content.
+	 * Returns true if current user can report given content.
 	 * 
 	 * @param	integer		$objectID
 	 * @return	boolean
