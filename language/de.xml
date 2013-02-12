@@ -22,7 +22,6 @@
 		<item name="wcf.moderation.type.all"><![CDATA[Alle Einträge]]></item>
 		<item name="wcf.moderation.type.com.woltlab.wcf.moderation.activation"><![CDATA[Freischaltung]]></item>
 		<item name="wcf.moderation.type.com.woltlab.wcf.moderation.report"><![CDATA[Meldung]]></item>
-		<item name="wcf.moderation.username"><![CDATA[Benutzername]]></item>
 	</category>
 	
 	<category name="wcf.moderation.activation">
