@@ -66,7 +66,7 @@
 {hascontent}
 	<div class="marginTop tabularBox tabularBoxTitle">
 		<hgroup>
-			<h1>{lang}wcf.moderation.outstandingItems{/lang} <span class="badge badgeInverse">{#$items}</span></h1>
+			<h1>{if $status == 2}{lang}wcf.moderation.doneItems{/lang}{else}{lang}wcf.moderation.outstandingItems{/lang}{/if} <span class="badge badgeInverse">{#$items}</span></h1>
 		</hgroup>
 		
 		<table class="table">
