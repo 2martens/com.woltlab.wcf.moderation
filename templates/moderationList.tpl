@@ -66,7 +66,7 @@
 {hascontent}
 	<div class="marginTop tabularBox tabularBoxTitle">
 		<hgroup>
-			<h1>{lang}wcf.moderation.items{/lang} <span class="badge badgeInverse">{#$items}</span></h1>
+			<h1>{lang}wcf.moderation.outstandingItems{/lang} <span class="badge badgeInverse">{#$items}</span></h1>
 		</hgroup>
 		
 		<table class="table">
@@ -75,7 +75,7 @@
 					<th class="columnID{if $sortField == 'queueID'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=queueID&sortOrder={if $sortField == 'queueID' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.global.objectID{/lang}</a></th>
 					<th class="columnText columnTitle">{lang}wcf.moderation.title{/lang}</th>
 					<th class="columnDate columnTime{if $sortField == 'time'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=time&sortOrder={if $sortField == 'time' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.time{/lang}</a></th>
-					<th class="columnText columnUserID{if $sortField == 'username'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=username&sortOrder={if $sortField == 'username' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.username{/lang}</a></th>
+					<th class="columnText columnUserID{if $sortField == 'username'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=username&sortOrder={if $sortField == 'username' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.user.username{/lang}</a></th>
 					<th class="columnDate columnLastChangeTime{if $sortField == 'lastChangeTime'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=lastChangeTime&sortOrder={if $sortField == 'lastChangeTime' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.lastChangeTime{/lang}</a></th>
 					<th class="columnText columnAssignedUserID{if $sortField == 'assignedUsername'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=assignedUsername&sortOrder={if $sortField == 'assignedUsername' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.assignedUser{/lang}</a></th>
 					{if !$definitionID}<th class="columnText columnType">{lang}wcf.moderation.type{/lang}</th>{/if}
@@ -86,13 +86,13 @@
 				{content}
 					{foreach from=$objects item=entry}
 						<tr>
-							<td>{#$entry->queueID}</td>
-							<td><a href="{$entry->getLink()}">{$entry->getTitle()}</a></td>
-							<td>{@$entry->time|time}</td>
-							<td>{if $entry->userID}<a href="{link controller='User' id=$entry->userID}{/link}" class="userLink" data-user-id="{@$entry->userID}">{$entry->username}</a>{else}{lang}wcf.global.guest{/lang}{/if}</td>
-							<td>{if $entry->lastChangeTime}{@$entry->lastChangeTime|time}{/if}</td>
-							<td>{if $entry->assignedUserID}<a href="{link controller='User' id=$entry->assignedUserID}{/link}" class="userLink" data-user-id="{@$entry->assignedUserID}">{$entry->assignedUsername}</a>{/if}</td>
-							{if !$definitionID}<td>{lang}wcf.moderation.type.{@$definitionNames[$entry->objectTypeID]}{/lang}</td>{/if}
+							<td class="columnID">{#$entry->queueID}</td>
+							<td class="columnText columnSubject"><a href="{$entry->getLink()}">{$entry->getTitle()}</a></td>
+							<td class="columnDate columnTime">{@$entry->time|time}</td>
+							<td class="columnText columnUserID">{if $entry->userID}<a href="{link controller='User' id=$entry->userID}{/link}" class="userLink" data-user-id="{@$entry->userID}">{$entry->username}</a>{else}{lang}wcf.global.guest{/lang}{/if}</td>
+							<td class="columnDate columnLastChangeTime">{if $entry->lastChangeTime}{@$entry->lastChangeTime|time}{/if}</td>
+							<td class="columnText columnAssignedUserID">{if $entry->assignedUserID}<a href="{link controller='User' id=$entry->assignedUserID}{/link}" class="userLink" data-user-id="{@$entry->assignedUserID}">{$entry->assignedUsername}</a>{/if}</td>
+							{if !$definitionID}<td class="columnText columnType">{lang}wcf.moderation.type.{@$definitionNames[$entry->objectTypeID]}{/lang}</td>{/if}
 						</tr>
 					{/foreach}
 				{/content}
