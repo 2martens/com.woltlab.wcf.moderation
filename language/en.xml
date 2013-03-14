@@ -13,7 +13,7 @@
 		<item name="wcf.moderation.doneItems"><![CDATA[Done Items]]></item>
 		<item name="wcf.moderation.lastChangeTime"><![CDATA[Last Change]]></item>
 		<item name="wcf.moderation.moderation"><![CDATA[Moderation]]></item>
-		<item name="wcf.moderation.noItems"><![CDATA[No items match your criteria]]></item>
+		<item name="wcf.moderation.noItems"><![CDATA[No items matched your criteria.]]></item>
 		<item name="wcf.moderation.status"><![CDATA[Status]]></item>
 		<item name="wcf.moderation.status.all"><![CDATA[All Items]]></item>
 		<item name="wcf.moderation.status.done"><![CDATA[Done]]></item>
