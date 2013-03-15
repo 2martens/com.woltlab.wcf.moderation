@@ -36,7 +36,8 @@
 	<nav>
 		<ul>
 			<li><a href="{link controller='ModerationList'}{/link}" title="{lang}wcf.moderation.moderation{/lang}" class="button"><span class="icon icon16 icon-list"></span> <span>{lang}wcf.moderation.moderation{/lang}</span></a></li>
-			{event name='largeButtonsTop'}
+			
+			{event name='contentNavigationButtonsTop'}
 		</ul>
 	</nav>
 </div>
@@ -108,7 +109,8 @@
 			<li class="jsOnly"><button id="removeContent">{lang}wcf.moderation.report.removeContent{/lang}</button></li>
 			<li class="jsOnly"><button id="removeReport">{lang}wcf.moderation.report.removeReport{/lang}</button></li>
 			<li><a href="{link controller='ModerationList'}{/link}" title="{lang}wcf.moderation.moderation{/lang}" class="button"><span class="icon icon16 icon-list"></span> <span>{lang}wcf.moderation.moderation{/lang}</span></a></li>
-			{event name='largeButtonsTop'}
+			
+			{event name='contentNavigationButtonsBottom'}
 		</ul>
 	</nav>
 </div>

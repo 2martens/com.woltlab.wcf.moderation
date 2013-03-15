@@ -61,9 +61,19 @@
 
 <div class="contentNavigation">
 	{pages print=true assign=pagesLinks controller='ModerationList' link="id=$definitionID&pageNo=%d&sortField=$sortField&sortOrder=$sortOrder"}
+	
+	{hascontent}
+		<nav>
+			<ul>
+				{content}
+					{event name='contentNavigationButtonsTop'}
+				{/content}
+			</ul>
+		</nav>
+	{/hascontent}
 </div>
 
-{hascontent}
+{if $objects|count}
 	<div class="marginTop tabularBox tabularBoxTitle">
 		<hgroup>
 			<h1>{if $status == 2}{lang}wcf.moderation.doneItems{/lang}{else}{lang}wcf.moderation.outstandingItems{/lang}{/if} <span class="badge badgeInverse">{#$items}</span></h1>
@@ -79,33 +89,45 @@
 					<th class="columnDate columnLastChangeTime{if $sortField == 'lastChangeTime'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=lastChangeTime&sortOrder={if $sortField == 'lastChangeTime' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.lastChangeTime{/lang}</a></th>
 					<th class="columnText columnAssignedUserID{if $sortField == 'assignedUsername'} active {@$sortOrder}{/if}"><a href="{link controller='ModerationList'}definitionID={@$definitionID}&assignedUserID={@$assignedUserID}&status={@$status}&pageNo={@$pageNo}&sortField=assignedUsername&sortOrder={if $sortField == 'assignedUsername' && $sortOrder == 'ASC'}DESC{else}ASC{/if}{/link}">{lang}wcf.moderation.assignedUser{/lang}</a></th>
 					{if !$definitionID}<th class="columnText columnType">{lang}wcf.moderation.type{/lang}</th>{/if}
+					
+					{event name='columnHeads'}
 				</tr>
 			</thead>
 			
 			<tbody>
-				{content}
-					{foreach from=$objects item=entry}
-						<tr>
-							<td class="columnID">{#$entry->queueID}</td>
-							<td class="columnText columnSubject"><a href="{$entry->getLink()}">{$entry->getTitle()}</a></td>
-							<td class="columnDate columnTime">{@$entry->time|time}</td>
-							<td class="columnText columnUserID">{if $entry->userID}<a href="{link controller='User' id=$entry->userID}{/link}" class="userLink" data-user-id="{@$entry->userID}">{$entry->username}</a>{else}{lang}wcf.global.guest{/lang}{/if}</td>
-							<td class="columnDate columnLastChangeTime">{if $entry->lastChangeTime}{@$entry->lastChangeTime|time}{/if}</td>
-							<td class="columnText columnAssignedUserID">{if $entry->assignedUserID}<a href="{link controller='User' id=$entry->assignedUserID}{/link}" class="userLink" data-user-id="{@$entry->assignedUserID}">{$entry->assignedUsername}</a>{/if}</td>
-							{if !$definitionID}<td class="columnText columnType">{lang}wcf.moderation.type.{@$definitionNames[$entry->objectTypeID]}{/lang}</td>{/if}
-						</tr>
-					{/foreach}
-				{/content}
+				{foreach from=$objects item=entry}
+					<tr>
+						<td class="columnID">{#$entry->queueID}</td>
+						<td class="columnText columnSubject"><a href="{$entry->getLink()}">{$entry->getTitle()}</a></td>
+						<td class="columnDate columnTime">{@$entry->time|time}</td>
+						<td class="columnText columnUserID">{if $entry->userID}<a href="{link controller='User' id=$entry->userID}{/link}" class="userLink" data-user-id="{@$entry->userID}">{$entry->username}</a>{else}{lang}wcf.global.guest{/lang}{/if}</td>
+						<td class="columnDate columnLastChangeTime">{if $entry->lastChangeTime}{@$entry->lastChangeTime|time}{/if}</td>
+						<td class="columnText columnAssignedUserID">{if $entry->assignedUserID}<a href="{link controller='User' id=$entry->assignedUserID}{/link}" class="userLink" data-user-id="{@$entry->assignedUserID}">{$entry->assignedUsername}</a>{/if}</td>
+						{if !$definitionID}<td class="columnText columnType">{lang}wcf.moderation.type.{@$definitionNames[$entry->objectTypeID]}{/lang}</td>{/if}
+						
+						{event name='columns'}
+					</tr>
+				{/foreach}
 			</tbody>
 		</table>
 	</div>
-{hascontentelse}
+	
+	<div class="contentNavigation">
+		{@$pagesLinks}
+		
+		{hascontent}
+			<nav>
+				<ul>
+					{content}
+						{event name='contentNavigationButtonsBottom'}
+					{/content}
+				</ul>
+			</nav>
+		{/hascontent}
+	</div>
+{else}
 	<p class="info">{lang}wcf.moderation.noItems{/lang}</p>
-{/hascontent}
-
-<div class="contentNavigation">
-	{@$pagesLinks}
-</div>
+{/if}
 
 {include file='footer'}
 

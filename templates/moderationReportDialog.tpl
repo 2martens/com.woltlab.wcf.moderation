@@ -6,10 +6,10 @@
 		
 		<dl class="wide" style="max-width: 600px;">
 			<dd>
-				<textarea id="reason" required="required" cols="60" rows="10" class="jsReportMessage marginTop"></textarea>
+				<textarea id="reason" required="required" cols="60" rows="10" class="jsReportMessage"></textarea>
 				<small>{lang}wcf.moderation.report.reason.description{/lang}</small>
 			</dd>
-		</dl>	
+		</dl>
 	</fieldset>
 	
 	<div class="formSubmit">
