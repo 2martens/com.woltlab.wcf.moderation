@@ -51,14 +51,7 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 	 * Validates parameters to mark this report as done.
 	 */
 	public function validateRemoveReport() {
-		if (empty($this->objects)) {
-			$this->readObjects();
-			if (empty($this->objects)) {
-				throw new UserInputException('objectIDs');
-			}
-		}
-		
-		$this->queue = current($this->objects);
+		$this->queue = $this->getSingleObject();
 		if (!$this->queue->canEdit()) {
 			throw new PermissionDeniedException();
 		}
@@ -75,14 +68,11 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 	 * Validates parameters to prepare a report.
 	 */
 	public function validatePrepareReport() {
-		$this->parameters['objectType'] = (isset($this->parameters['objectType'])) ? StringUtil::trim($this->parameters['objectType']) : '';
-		if (empty($this->parameters['objectType']) || !ModerationQueueReportManager::getInstance()->isValid($this->parameters['objectType'])) {
-			throw new UserInputException('objectType');
-		}
+		$this->readInteger('objectID');
+		$this->readString('objectType');
 		
-		$this->parameters['objectID'] = (isset($this->parameters['objectID'])) ? intval($this->parameters['objectID']) : 0;
-		if (!$this->parameters['objectID']) {
-			throw new UserInputException('objectID');
+		if (!ModerationQueueReportManager::getInstance()->isValid($this->parameters['objectType'])) {
+			throw new UserInputException('objectType');
 		}
 		
 		// validate the combination of object type and object id
@@ -118,10 +108,7 @@ class ModerationQueueReportAction extends ModerationQueueAction {
 	 * Validates parameters for reporting.
 	 */
 	public function validateReport() {
-		$this->parameters['message'] = (isset($this->parameters['message'])) ? StringUtil::trim($this->parameters['message']) : '';
-		if (empty($this->parameters['message'])) {
-			throw new UserInputException('message');
-		}
+		$this->readString('message');
 		
 		$this->validatePrepareReport();
 	}
