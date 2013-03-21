@@ -9,7 +9,7 @@ use wcf\util\StringUtil;
  * Executes actions for reports.
  * 
  * @author	Alexander Ebert
- * @copyright	2001-2012 WoltLab GmbH
+ * @copyright	2001-2013 WoltLab GmbH
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.wcf.moderation
  * @subpackage	data.moderation.queue
@@ -31,14 +31,7 @@ class ModerationQueueActivationAction extends ModerationQueueAction {
 	 * Validates parameters to enable content.
 	 */
 	public function validateEnableContent() {
-		if (empty($this->objects)) {
-			$this->readObjects();
-			if (empty($this->objects)) {
-				throw new UserInputException('objectIDs');
-			}
-		}
-		
-		$this->queue = current($this->objects);
+		$this->queue = $this->getSingleObject();
 		if (!$this->queue->canEdit()) {
 			throw new PermissionDeniedException();
 		}
@@ -58,9 +51,8 @@ class ModerationQueueActivationAction extends ModerationQueueAction {
 	 * Validates parameters to delete reported content.
 	 */
 	public function validateRemoveContent() {
+		$this->readString('message', true);
 		$this->validateEnableContent();
-		
-		$this->parameters['message'] = (isset($this->parameters['message']) ? StringUtil::trim($this->parameters['message']) : '');
 	}
 	
 	/**
