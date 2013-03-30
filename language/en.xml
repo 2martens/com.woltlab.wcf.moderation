@@ -48,5 +48,6 @@
 		<item name="wcf.moderation.report.reportContent"><![CDATA[Report Content]]></item>
 		<item name="wcf.moderation.report.reportedBy"><![CDATA[Reported By]]></item>
 		<item name="wcf.moderation.report.reportedContent"><![CDATA[Reported Content]]></item>
+		<item name="wcf.moderation.report.success"><![CDATA[TODO: Der Inhalt wurde den Moderatoren gemeldet.]]></item>
 	</category>
 </language>

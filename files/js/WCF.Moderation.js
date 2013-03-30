@@ -108,7 +108,7 @@ WCF.Moderation.Management = Class.extend({
 	 * @param	jQuery		jqXHR
 	 */
 	_success: function(data, textStatus, jqXHR) {
-		var $notification = new WCF.System.Notification(WCF.Language.get('wcf.moderation.success'));
+		var $notification = new WCF.System.Notification(WCF.Language.get('wcf.global.success'));
 		var self = this;
 		$notification.show(function() {
 			window.location = self._redirectURL;
